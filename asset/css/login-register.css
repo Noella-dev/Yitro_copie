@@ -1,0 +1,145 @@
+/* Section Authentification */
+.auth-section {
+    padding: 120px 0 80px;
+    background: linear-gradient(109deg, #132F3F, #01ae8f); /* Dégradé bleu */
+    min-height: 100vh;
+}
+
+.auth-container {
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Onglets */
+.auth-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.auth-tabs .tab {
+    flex: 1;
+    padding: 15px;
+    text-align: center;
+    background: #f3f3f3;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.auth-tabs .tab.active {
+    background: #0066ff;
+    color: white;
+}
+
+.auth-tabs .tab:hover {
+    background: #042049;
+    color: white;
+}
+
+/* Formulaire */
+.auth-form {
+    padding: 30px;
+    display: none;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+.auth-form h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-group select {
+    appearance: none;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6"><path fill="%23333" d="M0 0h10L5 6z"/></svg>') no-repeat right 10px center;
+    background-size: 10px;
+    cursor: pointer;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #0066ff;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.form-options label {
+    color: #555;
+}
+
+.forgot-password {
+    color: #0066ff;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.auth-form .btn-primary {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .auth-container {
+        margin: 0 15px;
+    }
+
+    .auth-form {
+        padding: 20px;
+    }
+
+    .auth-tabs .tab {
+        font-size: 1rem;
+    }
+
+    .auth-form h2 {
+        font-size: 1.5rem;
+    }
+}

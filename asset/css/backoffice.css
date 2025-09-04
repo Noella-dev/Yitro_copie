@@ -1,0 +1,276 @@
+/* Section Backoffice */
+.admin-section {
+    padding: 120px 0 80px;
+    background: #f9f9f9;
+    min-height: 100vh;
+}
+
+.admin-section h1 {
+    font-size: 2rem;
+    color: #042049;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 600;
+}
+
+/* Style général des cartes */
+.admin-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.admin-card h2 {
+    font-size: 1.5rem;
+    color: #0066ff;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-card p, .admin-card ul {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.admin-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.admin-card ul li {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Section 1 - Tableau de bord général */
+.dashboard-card {
+    border-left: 5px solid #0066ff;
+}
+
+.dashboard-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.stat-item {
+    background: #f3f3f3;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat-item h3 {
+    font-size: 1.1rem;
+    color: #042049;
+    margin-bottom: 10px;
+}
+
+/* Section 2 - Gestion des utilisateurs */
+.users-card {
+    border-top: 3px solid #042049;
+}
+
+.user-section {
+    margin-bottom: 20px;
+}
+
+.user-section h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.btn-toggle {
+    background: #0066ff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-toggle:hover {
+    background: #042049;
+}
+
+.user-details {
+    display: none;
+    margin-top: 15px;
+}
+
+.user-details.active {
+    display: block;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #f3f3f3;
+    color: #042049;
+}
+
+.btn-action {
+    background: #042049;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.btn-action:hover {
+    background: #0066ff;
+}
+
+/* Section 3 - Gestion des contenus */
+.content-card {
+    border-right: 5px solid #00cc99;
+}
+
+.content-section {
+    margin-bottom: 20px;
+}
+
+.content-section h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Section 4 - Modération communautaire */
+.moderation-card {
+    border-bottom: 3px solid #0066ff;
+}
+
+.moderation-preview {
+    background: #f3f3f3;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.moderation-preview h3 {
+    font-size: 1.1rem;
+    color: #042049;
+    margin-bottom: 10px;
+}
+
+/* Section 5 - Suivi des paiements & monétisation */
+.payments-card {
+    border-left: 5px solid #042049;
+}
+
+.payments-preview {
+    background: #f3f3f3;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.payments-preview h3 {
+    font-size: 1.1rem;
+    color: #042049;
+    margin-bottom: 10px;
+}
+
+/* Section 6 - Intégrations & outils tiers */
+.integrations-card {
+    border-top: 3px solid #00cc99;
+}
+
+.integration-section {
+    margin-bottom: 20px;
+}
+
+.integration-section h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Section 7 - Paramètres & sécurité */
+.security-card {
+    border-right: 5px solid #0066ff;
+}
+
+.security-preview {
+    background: #f3f3f3;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.security-preview h3 {
+    font-size: 1.1rem;
+    color: #042049;
+    margin-bottom: 10px;
+}
+
+/* Section 8 - Outils éditoriaux & Blog */
+.editorial-card {
+    border-bottom: 3px solid #042049;
+}
+
+.editorial-preview {
+    background: #f3f3f3;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.editorial-preview h3 {
+    font-size: 1.1rem;
+    color: #042049;
+    margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-section {
+        padding: 80px 0 40px;
+    }
+
+    .admin-card {
+        padding: 20px;
+    }
+
+    .admin-section h1 {
+        font-size: 1.8rem;
+    }
+
+    .admin-card h2 {
+        font-size: 1.3rem;
+    }
+
+    .dashboard-preview {
+        grid-template-columns: 1fr;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+}

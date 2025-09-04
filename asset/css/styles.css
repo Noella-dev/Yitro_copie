@@ -1,0 +1,455 @@
+/* Import de la police */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+/* SECTION RECHERCHE */
+.search-section {
+    background: #ffffff;
+    padding: 40px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.search-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+.search-section h2 {
+    font-size: 2em;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+.search-bar {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+.search-bar input {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.search-bar input:focus {
+    border-color: #9b8227;
+    box-shadow: 0 0 8px rgba(155, 130, 39, 0.3);
+    outline: none;
+}
+.search-bar button {
+    background: #9b8227;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.search-bar button:hover {
+    background: #e68c32;
+}
+.filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+.filter-group label {
+    font-size: 14px;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+.filter-group select {
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fff;
+    transition: border-color 0.3s ease;
+}
+.filter-group select:focus {
+    border-color: #9b8227;
+    outline: none;
+}
+
+/* SECTION COURS */
+.courses-section {
+    padding: 50px 20px;
+    background: #f8f9fa;
+}
+.courses-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.courses-section h2 {
+    font-size: 2em;
+    font-weight: 700;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.sort-options {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+.sort-options label {
+    font-size: 14px;
+    color: #2c3e50;
+    margin-right: 10px;
+    align-self: center;
+}
+.sort-options select {
+    padding: 8px;
+    font-size: 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fff;
+}
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+.course-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.course-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+.course-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+.course-card h3 {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 15px 15px 10px;
+}
+.course-card .trainer,
+.course-card .level,
+.course-card .duration,
+.course-card .price {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin: 5px 15px;
+}
+.course-card .badge {
+    display: inline-block;
+    background: #9b8227;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    margin: 10px 15px;
+}
+.course-card .btn-primary {
+    display: block;
+    text-align: center;
+    background: #9b8227;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 15px;
+    transition: background-color 0.3s ease;
+}
+.course-card .btn-primary:hover {
+    background: #e68c32;
+}
+
+/* SECTION CATEGORIES PHARES */
+.categories-section {
+    padding: 50px 20px;
+    background: #ffffff;
+}
+.categories-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.categories-section h2 {
+    font-size: 2em;
+    font-weight: 700;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+.category-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.category-card i {
+    font-size: 2em;
+    color: #9b8227;
+    margin-bottom: 10px;
+}
+.category-card h3 {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* SECTION PARCOURS YITRO */
+.pathways-section {
+    padding: 50px 20px;
+    background: #f8f9fa;
+}
+.pathways-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.pathways-section h2 {
+    font-size: 2em;
+    font-weight: 700;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.pathways-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+.pathway-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.pathway-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+.pathway-card h3 {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+.pathway-card p {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin-bottom: 10px;
+}
+.pathway-card .badge {
+    display: inline-block;
+    background: #2ecc71;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    margin-bottom: 10px;
+}
+.pathway-card .icon {
+    display: inline-block;
+    background: #9b8227;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    margin-bottom: 10px;
+}
+.pathway-card .btn-primary {
+    display: block;
+    text-align: center;
+    background: #9b8227;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+.pathway-card .btn-primary:hover {
+    background: #e68c32;
+}
+
+/* SECTION FORMATEURS PARTENAIRES */
+.partners-section {
+    padding: 50px 20px;
+    background: #ffffff;
+}
+.partners-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+.partners-section h2 {
+    font-size: 2em;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+.partners-section p {
+    font-size: 1em;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+}
+.partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+.partner-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.partner-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.partner-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+.partner-card h3 {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #2c3e50;
+}
+.partners-section .btn-primary {
+    display: inline-block;
+    background: #9b8227;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+.partners-section .btn-primary:hover {
+    background: #e68c32;
+}
+
+/* SECTION APPELS À ACTION */
+.cta-section {
+    padding: 50px 20px;
+    background: linear-gradient(109deg, #132F3F, #01ae8f);
+    color: white;
+}
+.cta-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+.cta-section h2 {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+.cta-buttons .btn-primary {
+    background: #9b8227;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.cta-buttons .btn-primary:hover {
+    background: #e68c32;
+    transform: scale(1.05);
+}
+
+/* RESPONSIVITÉ */
+@media (max-width: 768px) {
+    .search-section {
+        padding: 30px 10px;
+    }
+    .search-section h2 {
+        font-size: 1.8em;
+    }
+    .search-bar {
+        flex-direction: column;
+        max-width: 100%;
+    }
+    .search-bar input, .search-bar button {
+        width: 100%;
+        border-radius: 8px;
+    }
+    .filters {
+        grid-template-columns: 1fr;
+    }
+    .courses-section, .categories-section, .pathways-section, .partners-section, .cta-section {
+        padding: 30px 10px;
+    }
+    .courses-section h2, .categories-section h2, .pathways-section h2, .partners-section h2, .cta-section h2 {
+        font-size: 1.8em;
+    }
+    .courses-grid, .categories-grid, .pathways-grid, .partners-grid {
+        grid-template-columns: 1fr;
+    }
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-section h2, .courses-section h2, .categories-section h2, .pathways-section h2, .partners-section h2, .cta-section h2 {
+        font-size: 1.5em;
+    }
+    .search-bar input {
+        font-size: 14px;
+        padding: 10px;
+    }
+    .search-bar button {
+        padding: 10px;
+    }
+    .course-card h3, .pathway-card h3, .partner-card h3, .category-card h3 {
+        font-size: 1.1em;
+    }
+    .course-card img {
+        height: 150px;
+    }
+    .partner-card img {
+        width: 60px;
+        height: 60px;
+    }
+}

@@ -1,0 +1,186 @@
+/* Réinitialisation et styles globaux */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8fafc;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Conteneur du formulaire */
+.yitro-form-wrapper {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulaire */
+#formulaireYitro {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Titres des sections */
+.yitro-section h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #1a3c6d;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 8px;
+}
+
+/* Groupes d'input */
+.yitro-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.yitro-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.yitro-input,
+.yitro-select,
+.yitro-textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.yitro-input:focus,
+.yitro-select:focus,
+.yitro-textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.yitro-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Groupes de cases à cocher et boutons radio */
+.yitro-checkbox-group,
+.yitro-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.yitro-checkbox-group label,
+.yitro-radio-group label {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: #555;
+    cursor: pointer;
+}
+
+.yitro-checkbox-group input[type="checkbox"],
+.yitro-radio-group input[type="radio"] {
+    margin-right: 8px;
+    accent-color: #007bff;
+}
+
+.yitro-checkbox-group p,
+.yitro-radio-group p {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* Bouton de soumission */
+.yitro-submit-btn {
+    padding: 14px 24px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    align-self: center;
+    margin-top: 20px;
+}
+
+.yitro-submit-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.yitro-submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Styles pour les fichiers */
+.yitro-input[type="file"] {
+    padding: 8px;
+    border: none;
+}
+
+/* Liens dans les cases à cocher */
+.yitro-checkbox-group a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.yitro-checkbox-group a:hover {
+    text-decoration: underline;
+}
+
+/* Animation pour les champs requis */
+.yitro-input:required:invalid,
+.yitro-select:required:invalid,
+.yitro-textarea:required:invalid {
+    border-color: #ef4444;
+}
+
+.yitro-input:required:valid,
+.yitro-select:required:valid,
+.yitro-textarea:required:valid {
+    border-color: #10b981;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .yitro-form-wrapper {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .yitro-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .yitro-input,
+    .yitro-select,
+    .yitro-textarea {
+        font-size: 0.95rem;
+    }
+
+    .yitro-submit-btn {
+        width: 100%;
+        padding: 12px;
+    }
+}
