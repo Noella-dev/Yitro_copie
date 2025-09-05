@@ -1,0 +1,287 @@
+        .main--content {
+            padding: 40px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f0 100%);
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+        }
+        .header--wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .header--title {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .header--title h2 {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .header--title span {
+            color: #01ae8f;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .header--title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background: linear-gradient(to right, #01ae8f, #2ecc71);
+            animation: progressBar 2s forwards;
+        }
+        @keyframes progressBar {
+            to { width: 100px; }
+        }
+        .user--info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .search--box {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .search--box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .search--box i {
+            color: #01ae8f;
+            transition: transform 0.3s;
+        }
+        .search--box:hover i {
+            transform: scale(1.2);
+        }
+        .search--box input {
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+            margin-left: 12px;
+            width: 150px;
+            transition: width 0.3s;
+        }
+        .search--box input:focus {
+            width: 200px;
+            border-bottom: 2px solid #01ae8f;
+        }
+        .trainer-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            background: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .forum-section {
+            margin-bottom: 50px;
+        }
+        .forum-section h3 {
+            color: #2c3e50;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+        .forum-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+        .forum-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        .forum-card h4 {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .forum-card p {
+            color: #4a5568;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+        .post-list {
+            margin-top: 20px;
+            padding: 0 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .post-item {
+            max-width: 70%;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 16px;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .post-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .post-formateur {
+            margin-left: auto;
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            color: #fff;
+            border-radius: 16px 16px 4px 16px;
+        }
+        .post-apprenant {
+            margin-right: auto;
+            background: linear-gradient(145deg, #f1f5f9, #e6f0fa);
+            color: #2c3e50;
+            border-radius: 16px 4px 16px 16px;
+        }
+        .post-item .author {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .post-formateur .author i {
+            color: #fff;
+        }
+        .post-apprenant .author i {
+            color: #01ae8f;
+        }
+        .post-item .date {
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            opacity: 0.8;
+        }
+        .post-formateur .date {
+            color: #e6f0fa;
+        }
+        .post-apprenant .date {
+            color: #6b7280;
+        }
+        .post-item .content {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .form-group {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-control {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+            width: 100%;
+        }
+        .form-control:focus {
+            border-color: #01ae8f;
+            box-shadow: 0 0 10px rgba(1, 174, 143, 0.3);
+            transform: scale(1.01);
+            outline: none;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-back {
+            background: linear-gradient(45deg, #01ae8f, #008f75);
+            color: #fff;
+            border: none;
+        }
+        .btn-back:hover {
+            background: linear-gradient(45deg, #008f75, #01ae8f);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(1, 174, 143, 0.3);
+        }
+        .btn-success {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            color: #fff;
+            border: none;
+        }
+        .btn-success:hover {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+        }
+        .btn:active {
+            transform: scale(0.95);
+            transition: transform 0.1s;
+        }
+        .error, .success {
+            padding: 12px 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .error {
+            background: #fee2e2;
+            color: #dc3545;
+        }
+        .success {
+            background: #d1fae5;
+            color: #2ecc71;
+        }
+        .no-posts {
+            color: #4a5568;
+            font-size: 0.95rem;
+            padding: 15px;
+            text-align: center;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main--content { padding: 25px; }
+            .header--title h2 { font-size: 1.6rem; }
+            .forum-section h3 { font-size: 1.3rem; }
+            .post-item { max-width: 80%; }
+            .form-group { padding: 12px; }
+            .btn-back { padding: 10px 20px; }
+        }
+        @media (max-width: 480px) {
+            .main--content { padding: 15px; }
+            .header--wrapper { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .header--title { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .user--info { margin-top: 10px; }
+            .btn { padding: 10px 20px; font-size: 0.9rem; }
+            .btn-back { padding: 8px 16px; font-size: 0.85rem; }
+            .post-item { max-width: 90%; padding: 10px; }
+            .post-item .author { font-size: 0.85rem; }
+            .post-item .date { font-size: 0.75rem; }
+            .post-item .content { font-size: 0.9rem; }
+            .search--box input { width: 100px; }
+            .search--box input:focus { width: 120px; }
+        }
+    

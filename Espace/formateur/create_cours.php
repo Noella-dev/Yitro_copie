@@ -2,8 +2,7 @@
 session_start();
 require_once '../config/db.php';
 
-// Fetch trainer's name
-$trainer_name = "Formateur"; // Default fallback
+$trainer_name = "Formateur"; 
 if (!isset($pdo)) {
     die("Erreur : Connexion à la base de données non établie.");
 }
@@ -30,71 +29,10 @@ if (isset($_SESSION['formateur_id'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Yitro Learning - Créer un cours</title>
-  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../../asset/css/styles/style-formateur.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <style>
-    .main--content { padding: 30px; }
-    h2 { color: #333; font-weight: 600; margin-bottom: 20px; }
-    .form-group { margin-bottom: 20px; }
-    .form-control {
-      border: 1px solid #ced4da;
-      border-radius: 8px;
-      padding: 12px;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-    .form-control:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
-      outline: none;
-    }
-    .form-control[type="file"] {
-      padding: 8px;
-    }
-    .btn {
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 500;
-      transition: transform 0.2s, background-color 0.3s;
-      text-decoration: none;
-    }
-    .btn-primary { background-color: #007bff; border: none; }
-    .btn-primary:hover { background-color: #0056b3; transform: translateY(-2px); }
-    .btn-secondary { background-color: #6c757d; border: none; }
-    .btn-secondary:hover { background-color: #5a6268; transform: translateY(-2px); }
-    .btn-outline-info { border-color: #17a2b8; color: #17a2b8; }
-    .btn-outline-info:hover { background-color: #17a2b8; color: #fff; transform: translateY(-2px); }
-    .module-container {
-      border: 1px solid #e9ecef;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 12px;
-      background: #fff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    }
-    .lesson-container {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 15px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
-    }
-    label { font-weight: 500; color: #555; margin-bottom: 8px; display: block; }
-    a { text-decoration: none; color: #007bff; transition: color 0.3s, transform 0.2s; }
-    a:hover { color: #0056b3; transform: translateY(-2px); }
-    .error { color: #dc3545; font-size: 0.9em; }
-    .user--info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .trainer-name {
-      font-size: 0.9em;
-      font-weight: 600;
-      color: #2c3e50;
-    }
-  </style>
 </head>
 <body>
   <div class="sidebar">

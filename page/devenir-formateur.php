@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitro Learning - Devenir Formateur</title>
-    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../asset/css/styles/style.css">
     <link rel="icon" href="../asset/images/Yitro_consulting.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../asset/css/de-form.css">

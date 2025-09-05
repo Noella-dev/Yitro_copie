@@ -4,7 +4,7 @@ require_once '../config/db.php';
 
 // Vérifier si le formateur est connecté
 if (!isset($_SESSION['formateur_id'])) {
-    header("Location: ../../authentification/login.php");
+    header("Location: ../../authentification/connexion.php");
     exit;
 }
 
@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitro Learning - Modifier un quiz</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../../asset/css/styles/style-formateur.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>

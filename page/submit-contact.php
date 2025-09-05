@@ -3,7 +3,7 @@ session_start();
 require_once '../config/db.php';
 
 if (!isset($_SESSION['formateur_id'])) {
-    header("Location: ../../authentification/login.php");
+    header("Location: ../../authentification/connexion.php");
     exit;
 }
 

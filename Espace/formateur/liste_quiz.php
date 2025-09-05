@@ -4,7 +4,7 @@ require_once '../config/db.php';
 
 // Vérifier si le formateur est connecté
 if (!isset($_SESSION['formateur_id'])) {
-    header("Location: ../../authentification/login.php");
+    header("Location: ../../authentification/connexion.php");
     exit;
 }
 
@@ -59,103 +59,11 @@ if (isset($_GET['delete'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitro Learning - Gestion des quiz</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../../asset/css/styles/style-formateur.css">
+    <link rel="stylesheet" href="../../asset/css/quiz.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <style>
-        .main--content {
-            padding: 40px;
-            background: #f5f7fa;
-            min-height: 100vh;
-        }
-        h1 {
-            color: #2d3748;
-            font-weight: 700;
-            font-size: 2rem;
-            margin-bottom: 40px;
-            font-family: 'Poppins', sans-serif;
-        }
-        .card {
-            border: none;
-            border-radius: 16px;
-            background: linear-gradient(145deg, #ffffff, #f9fbfc);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-        }
-        .card-body {
-            padding: 30px;
-        }
-        .card-title {
-            color: #2d3748;
-            font-weight: 600;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-        .card-text {
-            color: #4a5568;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        .btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: transform 0.2s, background-color 0.3s;
-            text-decoration: none;
-            font-family: 'Poppins', sans-serif;
-        }
-        .btn-primary {
-            background-color: #01ae8f;
-            border: none;
-            color: #fff;
-        }
-        .btn-primary:hover {
-            background-color: #019074;
-            transform: translateY(-2px);
-        }
-        .btn-danger {
-            background-color: #dc3545;
-            border: none;
-            color: #fff;
-        }
-        .btn-danger:hover {
-            background-color: #c82333;
-            transform: translateY(-2px);
-        }
-        .no-quiz {
-            text-align: center;
-            color: #4a5568;
-            font-size: 1.2rem;
-            font-weight: 500;
-            padding: 30px;
-            background: linear-gradient(145deg, #ffffff, #f9fbfc);
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-        }
-        .user--info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .trainer-name {
-            font-size: 0.9em;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        .success {
-            color: #2ecc71;
-            font-size: 0.9em;
-            margin-bottom: 20px;
-        }
-    </style>
 </head>
 <body>
     <div class="sidebar">

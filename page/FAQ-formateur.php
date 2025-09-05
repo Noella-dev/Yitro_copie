@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitro Learning</title>
     <link rel="stylesheet" href="../asset/css/styles.css">
-   
     <link rel="icon" href="asset/images/Yitro_consulting.png" type="image/png">
     <!-- Font Awesome pour les icônes -->
 

@@ -1,0 +1,200 @@
+        .main--content {
+            padding: 30px;
+            background: #f5f7fa;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+        }
+        .header--wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .header--title h2 {
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+        .header--title span {
+            color: #01ae8f;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .user--info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .search--box {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .search--box input {
+            border: none;
+            outline: none;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        .trainer-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .dashboard-section {
+            margin-bottom: 40px;
+        }
+        .dashboard-section h3 {
+            color: #2c3e50;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        .stats-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(145deg, #ffffff, #f9fbfc);
+            padding: 15px;
+        }
+        .stats-card i {
+            font-size: 1.8rem;
+            color: #01ae8f;
+        }
+        .stats-card h4 {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .stats-card span {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2ecc71;
+        }
+        .sales-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .sales-table th, .sales-table td {
+            padding: 12px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+        .sales-table th {
+            background: #01ae8f;
+            color: #fff;
+            font-weight: 600;
+        }
+        .sales-table tr:nth-child(even) {
+            background: #f9fbfc;
+        }
+        .progression-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .progression-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            margin-bottom: 10px;
+        }
+        .progression-item h5 {
+            font-size: 1rem;
+            color: #2c3e50;
+            margin: 0;
+            flex: 1;
+        }
+        .progress-bar {
+            width: 200px;
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: #2ecc71;
+            transition: width 0.5s ease;
+        }
+        .progression-text {
+            font-size: 0.9rem;
+            color: #4a5568;
+            width: 100px;
+            text-align: right;
+        }
+        .notifications-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .notification-item {
+            padding: 10px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .notification-item span {
+            color: #2c3e50;
+        }
+        .notification-item .date {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+        .btn-primary {
+            background-color: #9b8227;
+            color: #fff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #e68c32;
+            transform: translateY(-2px);
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main--content { padding: 20px; }
+            .header--title h2 { font-size: 1.5rem; }
+            .dashboard-section h3 { font-size: 1.2rem; }
+            .sales-table th, .sales-table td { font-size: 0.9rem; }
+            .progress-bar { width: 150px; }
+            .progression-text { width: 80px; }
+        }
+        @media (max-width: 480px) {
+            .main--content { padding: 15px; }
+            .header--wrapper { flex-direction: column; align-items: flex-start; }
+            .user--info { margin-top: 10px; }
+            .progression-item { flex-direction: column; align-items: flex-start; }
+            .progress-bar { width: 100%; }
+            .progression-text { text-align: left; margin-top: 5px; }
+        }
+    

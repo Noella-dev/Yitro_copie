@@ -4,7 +4,7 @@ require_once '../config/db.php';
 
 // Vérifier si le formateur est connecté
 if (!isset($_SESSION['formateur_id'])) {
-    header("Location: ../../authentification/login.php");
+    header("Location: ../../authentification/connexion.php");
     exit;
 }
 
@@ -88,106 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitro Learning - Créer un quiz</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../../asset/css/styles/style-formateur.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <style>
-        .main--content {
-            padding: 40px;
-            background: #f5f7fa;
-            min-height: 100vh;
-        }
-        h2 {
-            color: #2d3748;
-            font-weight: 600;
-            margin-bottom: 20px;
-            font-family: 'Poppins', sans-serif;
-        }
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .form-control {
-            border: 1px solid #ced4da;
-            border-radius: 8px;
-            padding: 12px;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            font-family: 'Poppins', sans-serif;
-        }
-        .form-control:focus {
-            border-color: #01ae8f;
-            box-shadow: 0 0 8px rgba(1, 174, 143, 0.2);
-            outline: none;
-        }
-        .btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: transform 0.2s, background-color 0.3s;
-            text-decoration: none;
-            font-family: 'Poppins', sans-serif;
-        }
-        .btn-primary {
-            background-color: #01ae8f;
-            border: none;
-            color: #fff;
-        }
-        .btn-primary:hover {
-            background-color: #019074;
-            transform: translateY(-2px);
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            border: none;
-            color: #fff;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            transform: translateY(-2px);
-        }
-        .question-container {
-            border: 1px solid #e9ecef;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 12px;
-            background: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        }
-        .question-container h5 {
-            color: #2d3748;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        .error {
-            color: #dc3545;
-            font-size: 0.9em;
-            margin-top: 10px;
-        }
-        .loading {
-            display: none;
-            font-size: 0.9em;
-            color: #4a5568;
-            margin-top: 5px;
-            font-style: italic;
-        }
-        .no-modules {
-            display: none;
-            font-size: 0.9em;
-            color: #dc3545;
-            margin-top: 5px;
-        }
-        .user--info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .trainer-name {
-            font-size: 0.9em;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-    </style>
 </head>
 <body>
     <div class="sidebar">
@@ -378,5 +280,103 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         gsap.from(".form-group", { opacity: 0, y: 20, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.2 });
         gsap.from(".btn", { opacity: 0, scale: 0.8, duration: 0.5, stagger: 0.1, ease: "back.out(1.7)", delay: 0.5 });
     </script>
+     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        .main--content {
+            padding: 40px;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+        h2 {
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .form-control {
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            padding: 12px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .form-control:focus {
+            border-color: #01ae8f;
+            box-shadow: 0 0 8px rgba(1, 174, 143, 0.2);
+            outline: none;
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: transform 0.2s, background-color 0.3s;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-primary {
+            background-color: #01ae8f;
+            border: none;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background-color: #019074;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            color: #fff;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+        .question-container {
+            border: 1px solid #e9ecef;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        .question-container h5 {
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .error {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .loading {
+            display: none;
+            font-size: 0.9em;
+            color: #4a5568;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .no-modules {
+            display: none;
+            font-size: 0.9em;
+            color: #dc3545;
+            margin-top: 5px;
+        }
+        .user--info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .trainer-name {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+    </style>
 </body>
 </html>
