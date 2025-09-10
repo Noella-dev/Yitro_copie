@@ -751,7 +751,7 @@ $can_access = $is_free || $is_enrolled;
                         <p class="formateur">Formateur : <?php echo htmlspecialchars($formateur['nom_prenom']); ?></p>
                     <?php endif; ?>
                 </div>
-            </div>  
+            </div>
             <h2>Modules et Leçons</h2>
             <?php if (empty($modules)): ?>
                 <p>Aucun module disponible pour ce cours.</p>
@@ -768,24 +768,20 @@ $can_access = $is_free || $is_enrolled;
                                     $is_video = in_array(strtolower($lecon['format']), ['video']);
                                     $is_audio = in_array(strtolower($lecon['format']), ['audio']);
                                     $is_pdf = in_array(strtolower($lecon['format']), ['pdf']);
-                                    
-                                    $filePath = "../../uploads/lecons/" . rawurlencode($lecon['fichier']);
-                                
                                     ?>
-                   
                                     <div class="lesson-content">
                                         <?php if ($is_video): ?>
-                                            <video controls width="600">
-                                                <source src="<?php echo $filePath; ?>" type="video/mp4">
+                                            <video controls>
+                                                <source src="../../Uploads/lecons/<?php echo htmlspecialchars($lecon['fichier']); ?>" type="video/mp4">
                                                 Votre navigateur ne prend pas en charge la lecture de vidéos.
                                             </video>
                                         <?php elseif ($is_audio): ?>
                                             <audio controls>
-                                                <source src="<?php echo $filePath; ?>" type="audio/mpeg">
+                                                <source src="../../Uploads/lecons/<?php echo htmlspecialchars($lecon['fichier']); ?>" type="audio/mpeg">
                                                 Votre navigateur ne prend pas en charge la lecture d'audio.
                                             </audio>
                                         <?php elseif ($is_pdf): ?>
-                                            <a href="<?php echo $filePath; ?>" target="_blank">Voir le PDF</a>
+                                            <a href="../../Uploads/lecons/<?php echo htmlspecialchars($lecon['fichier']); ?>" target="_blank">Voir le PDF</a>
                                         <?php endif; ?>
                                     </div>
                                     <?php if ($index === count($lecons[$module['id']]) - 1): ?>
@@ -849,7 +845,7 @@ $can_access = $is_free || $is_enrolled;
                     </div>
                     <div class="form-group">
                         <label for="card-holder"><i class="fas fa-user"></i> Nom du titulaire</label>
-                        <input type="text" id="card-holder" placeholder="Nom complet" required>
+                        <input type="text" id="card-holder" name="card-holder" placeholder="Nom du titulaire" required>
                     </div>
                     <button type="submit">Payer <?php echo number_format($cours['prix'], 2); ?> €</button>
                     <p class="error" id="paymentError">Veuillez remplir tous les champs correctement.</p>
@@ -910,39 +906,83 @@ $can_access = $is_free || $is_enrolled;
             document.getElementById('paymentModal').style.display = 'none';
             document.getElementById('paymentError').style.display = 'none';
             document.getElementById('paymentSuccess').style.display = 'none';
-            //document.getElementById('paymentForm').reset();
+            document.getElementById('paymentForm').reset();
         }
-        // Validation du formulaire de paiement
+
+        // Gestion du formulaire de paiement
         document.getElementById('paymentForm')?.addEventListener('submit', function(e) {
             e.preventDefault();
+
             const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
             const expiryDate = document.getElementById('expiry-date').value;
             const cvv = document.getElementById('cvv').value;
-            const cardHolder = document.getElementById('card-holder').value;
+            const cardHolder = document.getElementById('card-holder').value.trim();
 
             const error = document.getElementById('paymentError');
             const success = document.getElementById('paymentSuccess');
 
-            // Validation simple
+            // Réinitialisation des messages
+            error.style.display = 'none';
+            success.style.display = 'none';
+
+            // Validation des champs de paiement
             const cardNumberRegex = /^\d{16}$/;
-            const expiryDateRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+            const expiryDateRegex = /^(0[1-9]|1[0-2])\/(20)?\d{2}$/; // Nouvelle regex pour la date
             const cvvRegex = /^\d{3,4}$/;
 
-            if (!cardNumberRegex.test(cardNumber) || !expiryDateRegex.test(expiryDate) || !cvvRegex.test(cvv) || !cardHolder) {
+            if (cardNumber === '') {
+                error.textContent = 'Le numéro de carte ne peut pas être vide.';
                 error.style.display = 'block';
-                success.style.display = 'none';
+                return;
+            }
+            if (!cardNumberRegex.test(cardNumber)) {
+                error.textContent = 'Le numéro de carte est invalide. Il doit contenir 16 chiffres.';
+                error.style.display = 'block';
                 return;
             }
 
-            // Envoyer la requête AJAX pour enregistrer l'inscription
+            if (expiryDate === '') {
+                error.textContent = 'La date d\'expiration ne peut pas être vide.';
+                error.style.display = 'block';
+                return;
+            }
+            if (!expiryDateRegex.test(expiryDate)) {
+                error.textContent = 'La date d\'expiration est invalide. Utilisez le format MM/AA ou MM/AAAA.';
+                error.style.display = 'block';
+                return;
+            }
+
+            if (cvv === '') {
+                error.textContent = 'Le CVV ne peut pas être vide.';
+                error.style.display = 'block';
+                return;
+            }
+            if (!cvvRegex.test(cvv)) {
+                error.textContent = 'Le CVV est invalide. Il doit contenir 3 ou 4 chiffres.';
+                error.style.display = 'block';
+                return;
+            }
+
+            if (cardHolder === '') {
+                error.textContent = 'Le nom du titulaire ne peut pas être vide.';
+                error.style.display = 'block';
+                return;
+            }
+
+            // Le code de la requête fetch() reste le même
             fetch('enroll_course.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `cours_id=<?php echo $cours_id; ?>&utilisateur_id=<?php echo $_SESSION['user_id']; ?>`
+                body: `cours_id=<?php echo $cours_id; ?>`
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur réseau ou réponse serveur incorrecte');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     error.style.display = 'none';
@@ -952,15 +992,16 @@ $can_access = $is_free || $is_enrolled;
                         window.location.reload();
                     }, 2000);
                 } else {
+                    error.textContent = data.message || 'Une erreur est survenue lors de l\'inscription.';
                     error.style.display = 'block';
-                    error.textContent = data.message;
                     success.style.display = 'none';
                 }
             })
-            .catch(error => {
-                error.style.display = 'block';
-                error.textContent = 'Erreur réseau : ' + error.message;
-                success.style.display = 'none';
+            .catch(err => {
+                console.error('Erreur lors de la requête:', err);
+                const errorMessage = document.getElementById('paymentError');
+                errorMessage.textContent = 'Une erreur de connexion est survenue. Veuillez réessayer.';
+                errorMessage.style.display = 'block';
             });
         });
 
@@ -980,7 +1021,7 @@ $can_access = $is_free || $is_enrolled;
             e.target.value = value;
         });
 
-        // Gestion des cases à cocher pour la complétion
+        // Gestion des cases à cocher pour la complétion des modules
         document.querySelectorAll('.module-completion').forEach(checkbox => {
             checkbox.addEventListener('change', function() {
                 const moduleId = this.dataset.moduleId;
@@ -994,32 +1035,32 @@ $can_access = $is_free || $is_enrolled;
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
                     body: `module_id=${moduleId}&cours_id=${coursId}&is_checked=${isChecked}`
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        messageElement.style.display = 'block';
-                        messageElement.className = 'completion-message';
-                        if (data.success) {
-                            messageElement.classList.add('success');
-                            messageElement.textContent = data.message;
-                        } else {
-                            messageElement.classList.add('error');
-                            messageElement.textContent = data.message;
-                            this.checked = !isChecked;
-                        }
-                        setTimeout(() => {
-                            messageElement.style.display = 'none';
-                        }, 3000);
-                    })
-                    .catch(error => {
-                        messageElement.style.display = 'block';
+                })
+                .then(response => response.json())
+                .then(data => {
+                    messageElement.style.display = 'block';
+                    messageElement.className = 'completion-message';
+                    if (data.success) {
+                        messageElement.classList.add('success');
+                        messageElement.textContent = data.message;
+                    } else {
                         messageElement.classList.add('error');
-                        messageElement.textContent = 'Erreur réseau : ' + error.message;
+                        messageElement.textContent = data.message;
                         this.checked = !isChecked;
-                        setTimeout(() => {
-                            messageElement.style.display = 'none';
-                        }, 3000);
-                    });
+                    }
+                    setTimeout(() => {
+                        messageElement.style.display = 'none';
+                    }, 3000);
+                })
+                .catch(error => {
+                    messageElement.style.display = 'block';
+                    messageElement.classList.add('error');
+                    messageElement.textContent = 'Erreur réseau : ' + error.message;
+                    this.checked = !isChecked;
+                    setTimeout(() => {
+                        messageElement.style.display = 'none';
+                    }, 3000);
+                });
             });
         });
 

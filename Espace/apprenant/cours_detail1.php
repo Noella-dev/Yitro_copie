@@ -910,7 +910,7 @@ $can_access = $is_free || $is_enrolled;
             document.getElementById('paymentModal').style.display = 'none';
             document.getElementById('paymentError').style.display = 'none';
             document.getElementById('paymentSuccess').style.display = 'none';
-            //document.getElementById('paymentForm').reset();
+            document.getElementById('paymentForm').reset();
         }
         // Validation du formulaire de paiement
         document.getElementById('paymentForm')?.addEventListener('submit', function(e) {
