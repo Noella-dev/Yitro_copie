@@ -973,7 +973,6 @@ $can_access = $is_free || $is_enrolled;
                 return;
             }
 
-            // Le code de la requête fetch() reste le même
             fetch('enroll_course.php', {
                 method: 'POST',
                 headers: {
