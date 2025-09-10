@@ -25,6 +25,7 @@ if (!isset($_GET['id'])) {
 }
 
 $cours_id = $_GET['id'];
+$utilisateur_id = $_SESSION['user_id'];
 
 // Récupérer les détails du cours
 $stmt = $pdo->prepare("SELECT * FROM cours WHERE id = ?");
@@ -38,7 +39,7 @@ if (!$cours) {
 
 // Vérifier si l'utilisateur est inscrit au cours
 $stmt = $pdo->prepare("SELECT * FROM inscriptions WHERE utilisateur_id = ? AND cours_id = ? AND statut_paiement = 'paye'");
-$stmt->execute([$_SESSION['user_id'], $cours_id]);
+$stmt->execute([$utilisateur_id, $cours_id]);
 $is_enrolled = $stmt->fetch(PDO::FETCH_ASSOC) !== false;
 
 // Récupérer le nom du formateur
@@ -53,7 +54,7 @@ $modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Récupérer les complétions de l'utilisateur pour ce cours
 $stmt = $pdo->prepare("SELECT module_id FROM completions WHERE utilisateur_id = ? AND cours_id = ?");
-$stmt->execute([$_SESSION['user_id'], $cours_id]);
+$stmt->execute([$utilisateur_id, $cours_id]);
 $completed_modules = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
 // Récupérer les leçons pour chaque module
@@ -74,7 +75,7 @@ foreach ($modules as $module) {
 
     // Vérifier les complétions des quiz
     $stmt = $pdo->prepare("SELECT quiz_id FROM resultats_quiz WHERE utilisateur_id = ? AND quiz_id IN (SELECT id FROM quiz WHERE module_id = ?)");
-    $stmt->execute([$_SESSION['user_id'], $module['id']]);
+    $stmt->execute([$utilisateur_id, $module['id']]);
     $completed_quizzes[$module['id']] = $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 
@@ -750,7 +751,7 @@ $can_access = $is_free || $is_enrolled;
                         <p class="formateur">Formateur : <?php echo htmlspecialchars($formateur['nom_prenom']); ?></p>
                     <?php endif; ?>
                 </div>
-            </div>
+            </div>  
             <h2>Modules et Leçons</h2>
             <?php if (empty($modules)): ?>
                 <p>Aucun module disponible pour ce cours.</p>
@@ -767,20 +768,24 @@ $can_access = $is_free || $is_enrolled;
                                     $is_video = in_array(strtolower($lecon['format']), ['video']);
                                     $is_audio = in_array(strtolower($lecon['format']), ['audio']);
                                     $is_pdf = in_array(strtolower($lecon['format']), ['pdf']);
+                                    
+                                    $filePath = "../../uploads/lecons/" . rawurlencode($lecon['fichier']);
+                                
                                     ?>
+                   
                                     <div class="lesson-content">
                                         <?php if ($is_video): ?>
-                                            <video controls>
-                                                <source src="../../Uploads/lecons/<?php echo htmlspecialchars($lecon['fichier']); ?>" type="video/mp4">
+                                            <video controls width="600">
+                                                <source src="<?php echo $filePath; ?>" type="video/mp4">
                                                 Votre navigateur ne prend pas en charge la lecture de vidéos.
                                             </video>
                                         <?php elseif ($is_audio): ?>
                                             <audio controls>
-                                                <source src="../../Uploads/lecons/<?php echo htmlspecialchars($lecon['fichier']); ?>" type="audio/mpeg">
+                                                <source src="<?php echo $filePath; ?>" type="audio/mpeg">
                                                 Votre navigateur ne prend pas en charge la lecture d'audio.
                                             </audio>
                                         <?php elseif ($is_pdf): ?>
-                                            <a href="../../Uploads/lecons/<?php echo htmlspecialchars($lecon['fichier']); ?>" target="_blank">Voir le PDF</a>
+                                            <a href="<?php echo $filePath; ?>" target="_blank">Voir le PDF</a>
                                         <?php endif; ?>
                                     </div>
                                     <?php if ($index === count($lecons[$module['id']]) - 1): ?>
@@ -897,7 +902,6 @@ $can_access = $is_free || $is_enrolled;
     </footer>
 
     <script>
-        // Gestion de la modale de paiement
         function openPaymentModal() {
             document.getElementById('paymentModal').style.display = 'flex';
         }
@@ -906,8 +910,8 @@ $can_access = $is_free || $is_enrolled;
             document.getElementById('paymentModal').style.display = 'none';
             document.getElementById('paymentError').style.display = 'none';
             document.getElementById('paymentSuccess').style.display = 'none';
+            //document.getElementById('paymentForm').reset();
         }
-
         // Validation du formulaire de paiement
         document.getElementById('paymentForm')?.addEventListener('submit', function(e) {
             e.preventDefault();

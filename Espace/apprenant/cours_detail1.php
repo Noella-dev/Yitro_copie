@@ -769,7 +769,7 @@ $can_access = $is_free || $is_enrolled;
                                     $is_audio = in_array(strtolower($lecon['format']), ['audio']);
                                     $is_pdf = in_array(strtolower($lecon['format']), ['pdf']);
                                     
-                                    $filePath = "http://localhost/Yitro_copie/uploads/lecons/lecon_3_2_1757415317.mp4/Uploads/lecons/" . rawurlencode($lecon['fichier']);
+                                    $filePath = "../../uploads/lecons/" . rawurlencode($lecon['fichier']);
                                 
                                     ?>
                    
@@ -910,12 +910,11 @@ $can_access = $is_free || $is_enrolled;
             document.getElementById('paymentModal').style.display = 'none';
             document.getElementById('paymentError').style.display = 'none';
             document.getElementById('paymentSuccess').style.display = 'none';
-            document.getElementById('paymentForm').reset();
+            //document.getElementById('paymentForm').reset();
         }
-
+        // Validation du formulaire de paiement
         document.getElementById('paymentForm')?.addEventListener('submit', function(e) {
             e.preventDefault();
-
             const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
             const expiryDate = document.getElementById('expiry-date').value;
             const cvv = document.getElementById('cvv').value;
@@ -924,6 +923,7 @@ $can_access = $is_free || $is_enrolled;
             const error = document.getElementById('paymentError');
             const success = document.getElementById('paymentSuccess');
 
+            // Validation simple
             const cardNumberRegex = /^\d{16}$/;
             const expiryDateRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
             const cvvRegex = /^\d{3,4}$/;
@@ -931,23 +931,18 @@ $can_access = $is_free || $is_enrolled;
             if (!cardNumberRegex.test(cardNumber) || !expiryDateRegex.test(expiryDate) || !cvvRegex.test(cvv) || !cardHolder) {
                 error.style.display = 'block';
                 success.style.display = 'none';
-                error.textContent = 'Veuillez remplir tous les champs correctement.';
                 return;
             }
 
+            // Envoyer la requête AJAX pour enregistrer l'inscription
             fetch('enroll_course1.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `cours_id=<?php echo $cours_id; ?>`
+                body: `cours_id=<?php echo $cours_id; ?>&utilisateur_id=<?php echo $_SESSION['user_id']; ?>`
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erreur réseau ou réponse serveur incorrecte');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     error.style.display = 'none';
@@ -957,16 +952,88 @@ $can_access = $is_free || $is_enrolled;
                         window.location.reload();
                     }, 2000);
                 } else {
-                    error.textContent = data.message || 'Une erreur est survenue lors de l\'inscription.';
                     error.style.display = 'block';
+                    error.textContent = data.message;
                     success.style.display = 'none';
                 }
             })
             .catch(error => {
-                console.error('Erreur lors de la requête:', error);
-                const errorMessage = document.getElementById('paymentError');
-                errorMessage.textContent = 'Une erreur de connexion est survenue. Veuillez réessayer.';
-                errorMessage.style.display = 'block';
+                error.style.display = 'block';
+                error.textContent = 'Erreur réseau : ' + error.message;
+                success.style.display = 'none';
+            });
+        });
+
+        // Formatage du numéro de carte
+        document.getElementById('card-number')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(.{4})/g, '$1 ').trim();
+            e.target.value = value;
+        });
+
+        // Formatage de la date d'expiration
+        document.getElementById('expiry-date')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 3) {
+                value = value.slice(0, 2) + '/' + value.slice(2);
+            }
+            e.target.value = value;
+        });
+
+        // Gestion des cases à cocher pour la complétion
+        document.querySelectorAll('.module-completion').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const moduleId = this.dataset.moduleId;
+                const coursId = this.dataset.coursId;
+                const isChecked = this.checked;
+                const messageElement = this.closest('.lecon').querySelector('.completion-message');
+
+                fetch('complete_module.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `module_id=${moduleId}&cours_id=${coursId}&is_checked=${isChecked}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        messageElement.style.display = 'block';
+                        messageElement.className = 'completion-message';
+                        if (data.success) {
+                            messageElement.classList.add('success');
+                            messageElement.textContent = data.message;
+                        } else {
+                            messageElement.classList.add('error');
+                            messageElement.textContent = data.message;
+                            this.checked = !isChecked;
+                        }
+                        setTimeout(() => {
+                            messageElement.style.display = 'none';
+                        }, 3000);
+                    })
+                    .catch(error => {
+                        messageElement.style.display = 'block';
+                        messageElement.classList.add('error');
+                        messageElement.textContent = 'Erreur réseau : ' + error.message;
+                        this.checked = !isChecked;
+                        setTimeout(() => {
+                            messageElement.style.display = 'none';
+                        }, 3000);
+                    });
+            });
+        });
+
+        // Animation GSAP pour les quiz
+        document.querySelectorAll('.quiz').forEach(quiz => {
+            gsap.from(quiz, {
+                opacity: 0,
+                y: 20,
+                duration: 0.5,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: quiz,
+                    start: "top 80%",
+                }
             });
         });
     </script>
