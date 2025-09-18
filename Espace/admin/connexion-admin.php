@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../Backend/config.php'; // Inclure le fichier de configuration de la base de données
+require_once '../../Backend/config.php'; 
 
 // Vérifier si l'utilisateur est déjà connecté
 if (isset($_SESSION['user_id']) && isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitro Learning - Connexion Admin</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../../asset/css/styles/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {

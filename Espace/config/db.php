@@ -2,7 +2,7 @@
 $host = 'localhost';
 $db   = 'yitro_learning';
 $user = 'root';
-$pass = ''; // ou ton mot de passe
+$pass = ''; 
 
 $dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
 
