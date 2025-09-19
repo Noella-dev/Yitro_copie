@@ -827,37 +827,58 @@ $can_access = $is_free || $is_enrolled;
         </div>
     </section>
 
-    <?php if (!$can_access): ?>
-        <div class="modal" id="paymentModal">
-            <div class="modal-content">
-                <span class="close" onclick="closePaymentModal()">×</span>
-                <h3><i class="fas fa-credit-card"></i> Paiement du cours</h3>
-                <form id="paymentForm">
-                    <div class="form-group">
-                        <label for="card-number"><i class="fas fa-credit-card"></i> Numéro de carte</label>
-                        <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
-                    </div>
-                    <div class="card-details">
-                        <div class="form-group">
-                            <label for="expiry-date"><i class="fas fa-calendar"></i> Date d'expiration</label>
-                            <input type="text" id="expiry-date" placeholder="MM/AA" maxlength="5" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="cvv"><i class="fas fa-lock"></i> CVV</label>
-                            <input type="text" id="cvv" placeholder="123" maxlength="4" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="card-holder"><i class="fas fa-user"></i> Nom du titulaire</label>
-                        <input type="text" id="card-holder" placeholder="Nom complet" required>
-                    </div>
-                    <button type="submit">Payer <?php echo number_format($cours['prix'], 2); ?> €</button>
-                    <p class="error" id="paymentError">Veuillez remplir tous les champs correctement.</p>
-                    <p class="success" id="paymentSuccess">Paiement effectué avec succès ! Vous pouvez maintenant accéder au contenu.</p>
-                </form>
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <span class="close" onclick="closePaymentModal()">×</span>
+            <h3><i class="fas fa-credit-card"></i> Paiement du cours</h3>
+            
+            <div class="payment-options" style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <button type="button" class="payment-btn active" id="cardBtn" style="border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; background-color: #9b8227; color: white;">
+                    <i class="fas fa-credit-card"></i> Carte bancaire
+                </button>
+                <button type="button" class="payment-btn" id="mvolaBtn" style="border: 1px solid #9b8227; padding: 10px 20px; border-radius: 8px; cursor: pointer; background-color: white; color: #9b8227;">
+                    <i class="fas fa-mobile-alt"></i> Mobile Money Mvola
+                </button>
             </div>
+
+            <form id="paymentFormCard" class="payment-form">
+                <div class="form-group">
+                    <label for="card-number"><i class="fas fa-credit-card"></i> Numéro de carte</label>
+                    <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                </div>
+                <div class="card-details">
+                    <div class="form-group">
+                        <label for="expiry-date"><i class="fas fa-calendar"></i> Date d'expiration</label>
+                        <input type="text" id="expiry-date" placeholder="MM/AA" maxlength="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv"><i class="fas fa-lock"></i> CVV</label>
+                        <input type="text" id="cvv" placeholder="123" maxlength="4" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="card-holder"><i class="fas fa-user"></i> Nom du titulaire</label>
+                    <input type="text" id="card-holder" name="card-holder" placeholder="Nom du titulaire" required>
+                </div>
+                <button type="submit">Payer <?php echo number_format($cours['prix'], 2); ?> €</button>
+                <p class="error" id="cardError" style="display: none; color: red;"></p>
+                <p class="success" id="cardSuccess" style="display: none; color: green;"></p>
+            </form>
+
+            <form id="paymentFormMvola" class="payment-form" style="display: none;">
+                <div class="form-group">
+                    <label for="mvola-number"><i class="fas fa-mobile-alt"></i> Numéro Mobile Money Mvola</label>
+                    <input type="text" id="mvola-number" name="mvola_number" placeholder="26134..." required>
+                    <input type="hidden" name="cours_id" value="<?php echo htmlspecialchars($cours_id); ?>">
+                    <input type="hidden" name="prix_cours" value="<?php echo htmlspecialchars($cours['prix']); ?>">
+                </div>
+                <button type="submit">Payer <?php echo number_format($cours['prix'], 2); ?> €</button>
+                <p class="error" id="mvolaError" style="display: none; color: red;"></p>
+                <p class="success" id="mvolaSuccess" style="display: none; color: green;"></p>
+            </form>
+            
         </div>
-    <?php endif; ?>
+    </div>   
 
     <footer class="footer">
         <div class="container">
@@ -902,26 +923,56 @@ $can_access = $is_free || $is_enrolled;
     </footer>
 
     <script>
+        // Fonctions de base de la modale de paiement
         function openPaymentModal() {
             document.getElementById('paymentModal').style.display = 'flex';
         }
 
         function closePaymentModal() {
             document.getElementById('paymentModal').style.display = 'none';
-            document.getElementById('paymentError').style.display = 'none';
-            document.getElementById('paymentSuccess').style.display = 'none';
-            document.getElementById('paymentForm').reset();
+
+            // Masquer les messages d'erreur et de succès pour les DEUX formulaires
+            document.getElementById('cardError').style.display = 'none';
+            document.getElementById('cardSuccess').style.display = 'none';
+            document.getElementById('mvolaError').style.display = 'none';
+            document.getElementById('mvolaSuccess').style.display = 'none';
+
+            // Réinitialiser les DEUX formulaires
+            document.getElementById('paymentFormCard').reset();
+            document.getElementById('paymentFormMvola').reset();
+
+            // Réinitialiser la vue par défaut si nécessaire
+            document.getElementById('paymentFormCard').style.display = 'block';
+            document.getElementById('paymentFormMvola').style.display = 'none';
+            document.getElementById('cardBtn').classList.add('active');
+            document.getElementById('mvolaBtn').classList.remove('active');
         }
-        // Validation du formulaire de paiement
-        document.getElementById('paymentForm')?.addEventListener('submit', function(e) {
+
+        // Gestion du basculement entre les formulaires de paiement (NOUVEAU CODE)
+        document.getElementById('cardBtn').addEventListener('click', function() {
+            document.getElementById('paymentFormCard').style.display = 'block';
+            document.getElementById('paymentFormMvola').style.display = 'none';
+            this.classList.add('active');
+            document.getElementById('mvolaBtn').classList.remove('active');
+        });
+
+        document.getElementById('mvolaBtn').addEventListener('click', function() {
+            document.getElementById('paymentFormCard').style.display = 'none';
+            document.getElementById('paymentFormMvola').style.display = 'block';
+            this.classList.add('active');
+            document.getElementById('cardBtn').classList.remove('active');
+        });
+
+        // Ancien code pour la validation et l'envoi du formulaire de carte bancaire
+        document.getElementById('paymentFormCard')?.addEventListener('submit', function(e) {
             e.preventDefault();
             const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
             const expiryDate = document.getElementById('expiry-date').value;
             const cvv = document.getElementById('cvv').value;
             const cardHolder = document.getElementById('card-holder').value;
-
-            const error = document.getElementById('paymentError');
-            const success = document.getElementById('paymentSuccess');
+            
+            const error = document.getElementById('cardError');
+            const success = document.getElementById('cardSuccess');
 
             // Validation simple
             const cardNumberRegex = /^\d{16}$/;
@@ -929,6 +980,7 @@ $can_access = $is_free || $is_enrolled;
             const cvvRegex = /^\d{3,4}$/;
 
             if (!cardNumberRegex.test(cardNumber) || !expiryDateRegex.test(expiryDate) || !cvvRegex.test(cvv) || !cardHolder) {
+                error.textContent = 'Veuillez remplir tous les champs correctement.';
                 error.style.display = 'block';
                 success.style.display = 'none';
                 return;
@@ -947,6 +999,7 @@ $can_access = $is_free || $is_enrolled;
                 if (data.success) {
                     error.style.display = 'none';
                     success.style.display = 'block';
+                    success.textContent = 'Paiement effectué avec succès ! Vous pouvez maintenant accéder au contenu.';
                     setTimeout(() => {
                         closePaymentModal();
                         window.location.reload();
@@ -964,14 +1017,58 @@ $can_access = $is_free || $is_enrolled;
             });
         });
 
-        // Formatage du numéro de carte
+        // NOUVEAU CODE pour la gestion du formulaire de paiement Mvola
+        document.getElementById('paymentFormMvola')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const mvolaNumber = document.getElementById('mvola-number').value.trim();
+            const coursId = this.querySelector('input[name="cours_id"]').value;
+            const prixCours = this.querySelector('input[name="prix_cours"]').value;
+            const error = document.getElementById('mvolaError');
+            const success = document.getElementById('mvolaSuccess');
+
+            error.style.display = 'none';
+            success.style.display = 'none';
+
+            if (!mvolaNumber) {
+                error.textContent = 'Veuillez entrer un numéro Mobile Money Mvola.';
+                error.style.display = 'block';
+                return;
+            }
+
+            // Envoyer les données au script PHP de traitement Mvola
+            fetch('../../Backend/traiter_paiement_mvola.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `mvola_number=${encodeURIComponent(mvolaNumber)}&cours_id=${encodeURIComponent(coursId)}&prix_cours=${encodeURIComponent(prixCours)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    success.textContent = data.message;
+                    success.style.display = 'block';
+                } else {
+                    error.textContent = data.message;
+                    error.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                error.textContent = 'Une erreur est survenue lors de la communication avec le serveur.';
+                error.style.display = 'block';
+            });
+        });
+
+        // Ancien code pour le formatage du numéro de carte
         document.getElementById('card-number')?.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
             value = value.replace(/(.{4})/g, '$1 ').trim();
             e.target.value = value;
         });
 
-        // Formatage de la date d'expiration
+        // Ancien code pour le formatage de la date d'expiration
         document.getElementById('expiry-date')?.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
             if (value.length >= 3) {
@@ -980,7 +1077,7 @@ $can_access = $is_free || $is_enrolled;
             e.target.value = value;
         });
 
-        // Gestion des cases à cocher pour la complétion
+        // Ancien code pour la gestion des cases à cocher pour la complétion
         document.querySelectorAll('.module-completion').forEach(checkbox => {
             checkbox.addEventListener('change', function() {
                 const moduleId = this.dataset.moduleId;

@@ -654,7 +654,7 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <h3><?php echo htmlspecialchars($c['titre']); ?></h3>
                                     <p><?php echo htmlspecialchars(substr($c['description'], 0, 100)) . (strlen($c['description']) > 100 ? '...' : ''); ?></p>
                                     <div class="price"><?php echo number_format($c['prix'], 2); ?> €</div>
-                                    <a href="cours_details.php?id=<?php echo $c['id']; ?>" class="btn-learn">Voir les détails</a>
+                                    <a href="cours_detail1.php?id=<?php echo $c['id']; ?>" class="btn-learn">Voir les détails</a>
                                 </div>
                             </div>
                         <?php endforeach; ?>
