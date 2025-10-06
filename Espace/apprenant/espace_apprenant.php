@@ -61,8 +61,8 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .logo img {
-            height: 45px;
-            border-radius: 50%;
+            height: 40px;
+            border-radius: 5px;
             transition: transform 0.3s ease;
         }
 
@@ -569,7 +569,7 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <header>
         <nav class="main-nav">
             <div class="logo">
-                <img src="https://yitro-consulting.com/wp-content/uploads/2024/02/Capture-decran-le-2024-02-19-a-16.39.58.png" alt="Yitro E-Learning">
+                <img src="../../../asset/images/other_logo.png"  alt="Yitro E-Learning">
                 <a href="#" class="logo-text">Yitro Learning</a>
             </div>
             <ul class="nav-list">

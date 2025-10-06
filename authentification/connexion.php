@@ -20,7 +20,7 @@ session_start();
         <nav class="main-nav">
             <div class="container">
                 <div class="logo">
-                    <img src="https://yitro-consulting.com/wp-content/uploads/2024/02/Capture-decran-le-2024-02-19-a-16.39.58.png" alt="Yitro E-Learning">
+                    <img src="../asset/images/other_logo.png"  alt="Yitro E-Learning">
                     <a href="../index.php" class="logo-text">Yitro Learning</a>
                 </div>
                 <ul class="nav-list">

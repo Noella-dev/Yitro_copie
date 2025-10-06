@@ -39,7 +39,8 @@ body {
 
 .main-nav .logo img {
     height: 40px;
-    border-radius: 50%;
+    border-radius:5px;
+  
 }
 
 .main-nav .logo-text {

@@ -21,7 +21,7 @@ session_start();
         <nav class="main-nav">
             <div class="container">
                 <div class="logo">
-                    <img src="../asset/images/Yitro consulting.png" type="image/png" alt="Yitro Learning">
+                    <img src="../asset/images/other_logo.png" type="image/png" alt="Yitro Learning">
                     <a href="../index.php" class="logo-text">Yitro Learning</a>
                 </div>
                 <ul class="nav-list">
