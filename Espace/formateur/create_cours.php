@@ -1,3 +1,7 @@
+<!-- sur la creation du nouveau cours:
+      -ajouter champs theme(qui est nos formations) et le sous-thme (le contenu)
+
+-->
 <?php
 session_start();
 require_once '../config/db.php';

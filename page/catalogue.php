@@ -1,3 +1,11 @@
+<!-- remarque a developper et construire dans catalogue.php:
+        - nos formations:integrer dans filtres, themes=>nos formations
+        sous-theme => contenu de chaque formations
+        -par rapport aux contenus choisissent l'affichage sur nos cours
+        -bouton acceder au cours,se dirige vers /Espace/apprenant/cours_detail1.php
+        -creer un table Formations et contenus
+
+-->
 <!DOCTYPE html>
 <html lang="fr">
 <head>

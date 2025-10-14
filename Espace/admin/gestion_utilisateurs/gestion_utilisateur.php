@@ -1,3 +1,8 @@
+<!-- enlever: Primary:gestion util. et barre de recherche
+     ajouter:champs d'ajout de formations
+     gerer les forums
+-->
+
 <?php
 session_start();
 require_once '../../config/db.php';
