@@ -225,8 +225,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 </head>
 <body>
   <div class="sidebar">
-    <div class="logo"></div>
-    <ul class="menu">
+    <div class="logo">
+        <img src="../../../asset/images/other_logo.png" alt="Yitro E-Learning" style="height: 50px;position:relative;left:-18px;">
+    </div>
+    <ul class="menu" style="margin-top:-14px">
       <li>
         <a href="../backoffice.php"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
       </li>
@@ -234,14 +236,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         <a href="#"><i class="fas fa-user-cog"></i><span>Gestion utilisateur</span></a>
       </li>
       <li>
+        <a href="../gestion_formations.php"><i class="fas fa-chart-line"></i><span>Gestion des formations</span></a>
+      </li>
+      <li>
         <a href="../gestion_forum.php"><i class="fas fa-comments"></i><span>Forum</span></a>
       </li>
-            <li>
-                <a href="../progression_apprenant.php"><i class="fas fa-chart-line"></i><span>Progression Apprenant</span></a>
-            </li>
-            <li>
-                <a href="../espace-certificat.php"><i class="fas fa-certificate"></i><span>Certificat Apprenant</span></a>
-            </li>
+      <li>
+        <a href="../progression_apprenant.php"><i class="fas fa-chart-line"></i><span>Progression Apprenant</span></a>
+      </li>
+      <li>
+        <a href="../espace-certificat.php"><i class="fas fa-certificate"></i><span>Certificat Apprenant</span></a>
+     </li>
       <li class="logout">
         <a href="../../../authentification/logout.php"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
       </li>

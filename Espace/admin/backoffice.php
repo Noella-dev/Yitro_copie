@@ -342,13 +342,18 @@ $data_inscriptions = array_values($inscriptions);
 </head>
 <body>
     <div class="sidebar">
-        <div class="logo"></div>
-        <ul class="menu">
+        <div class="logo">
+            <img src="../../../asset/images/other_logo.png" alt="Yitro E-Learning" style="height: 50px;position:relative;left:-18px;">
+        </div>
+        <ul class="menu" style="margin-top:-14px">
             <li class="active">
                 <a href="#"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
             </li>
             <li>
                 <a href="gestion_utilisateurs/gestion_utilisateur.php"><i class="fas fa-user-cog"></i><span>Gestion utilisateur</span></a>
+            </li>
+            <li>
+                <a href="../gestion_formations.php"><i class="fas fa-chart-line"></i><span>Gestion des formations</span></a>
             </li>
             <li>
                 <a href="gestion_forum.php"><i class="fas fa-comments"></i><span>Forum</span></a>
