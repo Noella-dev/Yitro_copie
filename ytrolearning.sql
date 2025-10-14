@@ -389,7 +389,39 @@ LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
+--
+-- Table structure for table `formations`
+--
+DROP TABLE IF EXISTS `formations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `formations` (
+  `id_formation` INT NOT NULL AUTO_INCREMENT,
+  `nom_formation` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL UNIQUE,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_formation`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `contenu_formations`
+--
+DROP TABLE IF EXISTS `contenu_formations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `contenu_formations` (
+  `id_contenu` INT NOT NULL AUTO_INCREMENT,
+  `formation_id` INT NOT NULL,
+  `sous_formation` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_contenu`),
+  CONSTRAINT `fk_contenu_formation_id` 
+    FOREIGN KEY (`formation_id`) 
+    REFERENCES `formations` (`id_formation`) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 --
 -- Table structure for table `questions`
 --
