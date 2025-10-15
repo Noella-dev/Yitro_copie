@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once '../config/db.php';
+require_once '../../config/db.php';
 
 // Vérifier si l'utilisateur est connecté et est admin
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
@@ -104,8 +104,8 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitro Learning - Gestion des formations</title>
-    <link rel="stylesheet" href="../../asset/css/styles/style-formateur.css">
-    <link rel="stylesheet" href="gestion_utilisateurs/styles.css">
+    <link rel="stylesheet" href="../../../asset/css/styles/style-formateur.css">
+    <link rel="stylesheet" href="../gestion_utilisateurs/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -167,25 +167,25 @@ try {
     </div>
     <ul class="menu" style="margin-top:-14px">
       <li>
-        <a href="backoffice.php"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
+        <a href="../backoffice.php"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
       </li>
       <li>
-        <a href="gestion_utilisateurs/gestion_utilisateur.php"><i class="fas fa-user-cog"></i><span>Gestion utilisateur</span></a>
+        <a href="../gestion_utilisateurs/gestion_utilisateur.php"><i class="fas fa-user-cog"></i><span>Gestion utilisateur</span></a>
       </li>
       <li class="active">
         <a href="#"><i class="fas fa-chart-line"></i><span>Gestion formations</span></a>
       </li>
       <li>
-        <a href="gestion_forum.php"><i class="fas fa-comments"></i><span>Forum</span></a>
+        <a href="../gestion_forum.php"><i class="fas fa-comments"></i><span>Forum</span></a>
       </li>
       <li>
-        <a href="progression_apprenant.php"><i class="fas fa-chart-line"></i><span>Progression Apprenant</span></a>
+        <a href="../progression_apprenant.php"><i class="fas fa-chart-line"></i><span>Progression Apprenant</span></a>
       </li>
       <li>
-        <a href="espace-certificat.php"><i class="fas fa-certificate"></i><span>Certificat Apprenant</span></a>
+        <a href="../espace-certificat.php"><i class="fas fa-certificate"></i><span>Certificat Apprenant</span></a>
      </li>
       <li class="logout">
-        <a href="../../authentification/logout.php"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
+        <a href="../../../authentification/logout.php"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
       </li>
     </ul>
   </div>

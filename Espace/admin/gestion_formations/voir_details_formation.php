@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once '../config/db.php';
+require_once '../../config/db.php';
 
 // Vérifier si l'utilisateur est connecté et est admin
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
@@ -53,8 +53,8 @@ try {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Détails de <?= htmlspecialchars($formation_details['nom_formation']) ?></title>
-  <link rel="stylesheet" href="../../asset/css/styles/style-formateur.css">
-    <link rel="stylesheet" href="gestion_utilisateurs/styles.css">
+  <link rel="stylesheet" href="../../../asset/css/styles/style-formateur.css">
+    <link rel="stylesheet" href="../gestion_utilisateurs/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     /* Ajoutez des styles pour les boutons d'action */
