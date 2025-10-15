@@ -236,7 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         <a href="#"><i class="fas fa-user-cog"></i><span>Gestion utilisateur</span></a>
       </li>
       <li>
-        <a href="../gestion_formations.php"><i class="fas fa-chart-line"></i><span>Gestion des formations</span></a>
+        <a href="../gestion_formations.php"><i class="fas fa-chart-line"></i><span>Gestion formations</span></a>
       </li>
       <li>
         <a href="../gestion_forum.php"><i class="fas fa-comments"></i><span>Forum</span></a>

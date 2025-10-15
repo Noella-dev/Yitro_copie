@@ -230,7 +230,7 @@ $forums = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <a href="gestion_utilisateurs/gestion_utilisateur.php"><i class="fas fa-user-cog"></i><span>Gestion utilisateur</span></a>
             </li>
             <li>
-                <a href="../gestion_formations.php"><i class="fas fa-chart-line"></i><span>Gestion des formations</span></a>
+                <a href="gestion_formations.php"><i class="fas fa-chart-line"></i><span>Gestion formations</span></a>
             </li>
             <li class="active">
                 <a href="gestion_forum.php"><i class="fas fa-comments"></i><span>Forum</span></a>
