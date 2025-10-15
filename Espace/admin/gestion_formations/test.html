@@ -1,3 +1,162 @@
-<link rel="stylesheet" href="../../config/db.php"> 
-<img src="../../../asset/images/other_logo.png alt="Yitro E-Learning" style="height: 50px;position:relative;left:-18px;">
-<a href="../../../"></a>
+//(.sql)
+ALTER TABLE `cours`
+ADD COLUMN `formation_id` INT NOT NULL AFTER `formateur_id`,
+ADD COLUMN `contenu_formation_id` INT NOT NULL AFTER `formation_id`,
+ADD CONSTRAINT `fk_cours_formation` 
+    FOREIGN KEY (`formation_id`) 
+    REFERENCES `formations` (`id_formation`) 
+    ON DELETE RESTRICT ON UPDATE CASCADE,
+ADD CONSTRAINT `fk_cours_sous_formation` 
+    FOREIGN KEY (`contenu_formation_id`) 
+    REFERENCES `contenu_formations` (`id_contenu`) 
+    ON DELETE RESTRICT ON UPDATE CASCADE;
+
+
+    DROP TABLE IF EXISTS `cours`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cours` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `formateur_id` int NOT NULL,
+  -- NOUVELLES COLONNES AJOUTÉES ICI
+  `formation_id` INT NOT NULL, 
+  `contenu_formation_id` INT NOT NULL,
+  -- FIN NOUVELLES COLONNES
+  `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `prix` decimal(10,2) NOT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `formateur_id` (`formateur_id`),
+  -- NOUVELLES CLÉS ÉTRANGÈRES AJOUTÉES ICI
+  KEY `formation_id` (`formation_id`),
+  KEY `contenu_formation_id` (`contenu_formation_id`),
+  CONSTRAINT `cours_ibfk_1` FOREIGN KEY (`formateur_id`) REFERENCES `formateurs` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_cours_formation` FOREIGN KEY (`formation_id`) REFERENCES `formations` (`id_formation`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_cours_sous_formation` FOREIGN KEY (`contenu_formation_id`) REFERENCES `contenu_formations` (`id_contenu`) ON DELETE RESTRICT ON UPDATE CASCADE
+  -- FIN NOUVELLES CLÉS ÉTRANGÈRES
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+//creer cours<h2>Créer un nouveau cours</h2>
+
+<form action="submit_cours.php" method="POST" enctype="multipart/form-data" id="courseForm">
+  
+  <div class="form-group">
+    <label for="formation_id">Thème du cours (Formation)</label>
+    <select id="formation_id" name="formation_id" class="form-control" required onchange="chargerSousFormations()">
+        <option value="">-- Sélectionner un thème --</option>
+        <?php
+            // Code pour charger les Formations
+            try {
+                $stmt_formations = $pdo->query("SELECT id_formation, nom_formation FROM formations ORDER BY nom_formation ASC");
+                $formations = $stmt_formations->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach($formations as $f) {
+                    echo '<option value="' . htmlspecialchars($f['id_formation']) . '">' . htmlspecialchars($f['nom_formation']) . '</option>';
+                }
+            } catch (PDOException $e) {
+                error_log("Erreur de chargement des formations : " . $e->getMessage());
+                echo '<option value="" disabled>Erreur de BDD ou aucune formation.</option>';
+            }
+        ?>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="contenu_formation_id">Sous-Thème du cours (Contenu)</label>
+    <select id="contenu_formation_id" name="contenu_formation_id" class="form-control" required>
+        <option value="">-- Sélectionner d'abord un thème --</option>
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label for="titre_cours">Titre du cours</label>
+    <input type="text" name="titre_cours" id="titre_cours" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label for="description_cours">Description du cours</label>
+    <textarea name="description_cours" id="description_cours" class="form-control" rows="3" required></textarea>
+  </div>
+  <div class="form-group">
+    <label for="prix_cours">Prix du cours (€)</label>
+    <input type="number" name="prix_cours" id="prix_cours" class="form-control" step="0.01" required>
+  </div>
+  <div class="form-group">
+    <label for="photo_cours">Photo du cours (jpg, jpeg, png)</label>
+    <input type="file" name="photo_cours" id="photo_cours" class="form-control" accept="image/jpeg,image/jpg,image/png">
+  </div>
+
+  <div id="modules-container"></div>
+
+  <button type="button" class="btn btn-secondary mt-3" onclick="ajouterModule()">+ Ajouter un module</button>
+  <button type="submit" class="btn btn-primary mt-3">Enregistrer le cours</button>
+</form>
+// Fonction pour charger les sous-formations via AJAX
+    function chargerSousFormations() {
+        const formationId = document.getElementById('formation_id').value;
+        const selectContenu = document.getElementById('contenu_formation_id');
+
+        // Réinitialiser la liste des sous-formations
+        selectContenu.innerHTML = '<option value="">-- Chargement... --</option>';
+
+        if (formationId) {
+            // Requête vers le script PHP qui retourne les sous-thèmes
+            // Assurez-vous que le chemin vers get_sous_formations.php est correct
+            fetch('get_sous_formations.php?formation_id=' + formationId) 
+                .then(response => response.json())
+                .then(data => {
+                    selectContenu.innerHTML = '<option value="">-- Sélectionner un sous-thème --</option>';
+                    if (data.length > 0) {
+                        data.forEach(item => {
+                            const option = document.createElement('option');
+                            option.value = item.id_contenu;
+                            option.textContent = item.sous_formation;
+                            selectContenu.appendChild(option);
+                        });
+                    } else {
+                        selectContenu.innerHTML = '<option value="" disabled>Aucune sous-formation pour ce thème.</option>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des sous-formations:', error);
+                    selectContenu.innerHTML = '<option value="" disabled>-- Erreur de chargement --</option>';
+                });
+        } else {
+            selectContenu.innerHTML = '<option value="">-- Sélectionner d\'abord un thème --</option>';
+        }
+    }
+
+
+    get_sous_formations.php
+    <?php
+// Permet au navigateur de savoir qu'il reçoit du JSON
+header('Content-Type: application/json');
+session_start();
+
+// Chemin vers la connexion BDD (à ajuster si nécessaire)
+require_once '../../config/db.php'; 
+
+$formation_id = $_GET['formation_id'] ?? 0;
+
+$sous_formations = [];
+
+if ($formation_id > 0) {
+    try {
+        $stmt = $pdo->prepare("SELECT id_contenu, sous_formation 
+                                FROM contenu_formations 
+                                WHERE formation_id = ? 
+                                ORDER BY sous_formation ASC");
+        $stmt->execute([$formation_id]);
+        $sous_formations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        // En cas d'erreur BD, renvoyer un tableau vide
+        error_log("Erreur de chargement AJAX : " . $e->getMessage());
+    }
+}
+
+echo json_encode($sous_formations);
+?>

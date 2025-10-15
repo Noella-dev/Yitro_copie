@@ -158,6 +158,10 @@ try {
         text-align: left;
         border-bottom: 1px solid #eee;
     }
+    /* Ajoutez des styles pour les boutons d'action */
+    .btn-action.btn-edit { background-color: #ffc107; }
+    .btn-action.btn-delete { background-color: #dc3545; }
+    .btn-action { color: white; padding: 5px 10px; border-radius: 4px; text-decoration: none; margin-right: 5px; }
   </style>
 </head>
 <body>
@@ -270,6 +274,8 @@ try {
                                     <td><?= htmlspecialchars($formation['nom_formation']) ?></td>
                                     <td><?= $count ?></td>
                                     <td>
+                                        <a href="modifier_formation.php?id=<?= $formation['id_formation'] ?>" class="btn-action btn-edit">Modifier</a>
+                                    
                                         <a href="voir_details_formation.php?id=<?= $formation['id_formation'] ?>" class="btn-action btn-view">Voir Toutes</a>
                                         
                                         <a href="supprimer_formation.php?id=<?= $formation['id_formation'] ?>" class="btn-action btn-delete" onclick="return confirm('Supprimer la formation <?= htmlspecialchars($formation['nom_formation']) ?> et TOUTES ses sous-formations ?')">Supprimer</a>
