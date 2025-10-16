@@ -126,6 +126,16 @@ if (isset($_SESSION['formateur_id'])) {
         <input type="file" name="photo_cours" id="photo_cours" class="form-control" accept="image/jpeg,image/jpg,image/png">
       </div>
 
+      <div class="form-group">
+        <label for="niveau_cours">Niveau du cours</label>
+        <select id="niveau_cours" name="niveau_cours" class="form-control" required>
+            <option value="" disabled selected>Sélectionner le niveau</option>
+            <option value="Débutant">Débutant</option>
+            <option value="Intermédiaire">Intermédiaire</option>
+            <option value="Avancé">Avancé</option>
+        </select>
+      </div>
+
       <div id="modules-container"></div>
 
       <button type="button" class="btn btn-secondary mt-3" onclick="ajouterModule()">+ Ajouter un module</button>

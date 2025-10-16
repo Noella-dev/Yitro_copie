@@ -1,0 +1,24 @@
+// Fichier: get_sous_formations.php
+<?php
+require_once '../config/db.php';
+
+header('Content-Type: application/json');
+
+$formation_id = $_GET['formation_id'] ?? null;
+$sous_formations = [];
+
+if ($formation_id) {
+    try {
+        $stmt = $pdo->prepare("SELECT id_contenu, sous_formation FROM contenu_formations WHERE formation_id = ? ORDER BY sous_formation");
+        $stmt->execute([$formation_id]);
+        $sous_formations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        // En cas d'erreur
+        echo json_encode(['error' => $e->getMessage()]);
+        exit;
+    }
+}
+
+echo json_encode($sous_formations);
+?>
+<link rel="stylesheet" href="../authentification/inscription.php"

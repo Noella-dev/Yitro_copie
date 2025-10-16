@@ -35,6 +35,7 @@ try {
     $formation_id = $_POST['formation_id']; 
     $contenu_formation_id = $_POST['contenu_formation_id'];
     
+    $niveau = $_POST['niveau_cours'] ?? null;
     $photo = null;
 
     // Gérer l'upload de la photo
@@ -59,8 +60,8 @@ try {
     }
 
     // Insérer le cours
-    $sql_insert_cours = "INSERT INTO cours (formateur_id, formation_id, contenu_formation_id, titre, description, prix, photo) 
-                         VALUES (?, ?, ?, ?, ?, ?, ?)"; 
+    $sql_insert_cours = "INSERT INTO cours (formateur_id, formation_id, contenu_formation_id, titre, description, prix, photo,niveau) 
+                         VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; 
                          
     $stmt = $pdo->prepare($sql_insert_cours);
     
@@ -71,7 +72,8 @@ try {
         $titre,
         $description,
         $prix,
-        $photo
+        $photo,
+        $niveau
     ]);
     $cours_id = $pdo->lastInsertId();
 

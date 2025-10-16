@@ -1,11 +1,56 @@
-<!-- remarque a developper et construire dans catalogue.php:
-        - nos formations:integrer dans filtres, themes=>nos formations
-        sous-theme => contenu de chaque formations
-        -par rapport aux contenus choisissent l'affichage sur nos cours
-        -bouton acceder au cours,se dirige vers /Espace/apprenant/cours_detail1.php
-        -creer un table Formations et contenus
+<?php
 
--->
+session_start();
+require_once '../Espace/config/db.php';
+
+
+// Vérifier si l'utilisateur est connecté (nécessaire pour le bouton "Accéder")
+$is_logged_in = isset($_SESSION['apprenant_id']) || isset($_SESSION['formateur_id']);
+$is_apprenant = isset($_SESSION['apprenant_id']);
+
+// Récupérer toutes les formations pour le menu déroulant (Thèmes)
+$formations = [];
+try {
+    $stmt_formations = $pdo->prepare("SELECT id_formation, nom_formation FROM formations ORDER BY nom_formation");
+    $stmt_formations->execute();
+    $formations = $stmt_formations->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    // Gérer l'erreur de base de données si nécessaire
+    error_log("Erreur de requête des formations : " . $e->getMessage());
+}
+
+$cours = [];
+try {
+    $sql_cours = "
+        SELECT 
+            c.id, 
+            c.titre, 
+            c.description, 
+            c.prix, 
+            c.photo,
+            c.niveau,
+            c.formation_id,         
+            c.contenu_formation_id,
+            f.nom_formation AS nom_theme,
+            cf.sous_formation AS nom_sous_theme
+        FROM 
+            cours c
+        LEFT JOIN   
+            formations f ON c.formation_id = f.id_formation
+        LEFT JOIN  
+            contenu_formations cf ON c.contenu_formation_id = cf.id_contenu
+        ORDER BY 
+            c.titre ASC"; 
+
+    $stmt = $pdo->prepare($sql_cours);
+    $stmt->execute();
+    $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+} catch (PDOException $e) {
+    error_log("Erreur de requête des cours : " . $e->getMessage());
+    die("Erreur Fatale de Base de Données: " . $e->getMessage() . "<br>Veuillez vérifier votre requête SQL."); 
+}?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -480,37 +525,37 @@
     <div class="catalogue-main">
         <aside class="catalogue-sidebar">
             <h2>Filtres</h2>
+            
             <div class="filter-group">
-                <label for="theme">Thème</label>
-                <select id="theme" onchange="filterCourses()">
-                    <option value="">Tous</option>
-                    <option value="digital">Marketing Digital</option>
-                    <option value="business">Business</option>
-                    <option value="tech">Technologie</option>
-                    <option value="health">Santé & Bien-être</option>
+                <label for="theme_filter">Thème</label>
+                <select id="theme_filter" onchange="loadAndFilterCourses()">
+                    <option value="">Tous les Thèmes</option>
+                    <?php foreach ($formations as $f): ?>
+                        <option value="<?php echo $f['id_formation']; ?>"><?php echo htmlspecialchars($f['nom_formation']); ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
+            
+            <div class="filter-group" id="subtheme-group">
+                <label for="subtheme_filter">Sous-Thème</label>
+                <select id="subtheme_filter" onchange="filterCourses(true)">
+                    <option value="">Tous les Sous-Thèmes</option>
+                    </select>
+            </div>
+            
             <div class="filter-group">
-                <label for="level">Niveau</label>
-                <select id="level" onchange="filterCourses()">
-                    <option value="">Tous</option>
-                    <option value="beginner">Débutant</option>
-                    <option value="intermediate">Intermédiaire</option>
-                    <option value="advanced">Avancé</option>
+                <label for="level_filter">Niveau</label>
+                <select id="level_filter" onchange="filterCourses(true)">
+                    <option value="">Tous les Niveaux</option>
+                    <option value="Débutant">Débutant</option>
+                    <option value="Intermédiaire">Intermédiaire</option>
+                    <option value="Avancé">Avancé</option>
                 </select>
             </div>
+            
             <div class="filter-group">
-                <label for="duration">Durée</label>
-                <select id="duration" onchange="filterCourses()">
-                    <option value="">Toutes</option>
-                    <option value="short">Moins de 2h</option>
-                    <option value="medium">2h - 5h</option>
-                    <option value="long">Plus de 5h</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label for="price">Prix</label>
-                <select id="price" onchange="filterCourses()">
+                <label for="price_filter">Prix</label>
+                <select id="price_filter" onchange="filterCourses(true)">
                     <option value="">Tous</option>
                     <option value="free">Gratuit</option>
                     <option value="paid">Payant</option>
@@ -531,54 +576,43 @@
                 </div>
             </div>
             <div class="courses-grid" id="courses-grid">
-                <div class="course-card" data-theme="digital" data-level="beginner" data-duration="medium" data-price="free" data-popularity="100" data-date="2025-01-01" data-price-value="0">
-                    <img src="../asset/images/marketing-digital.jpg" alt="Marketing Digital 101">
-                    <div class="course-card-content">
-                        <h3>Marketing Digital 101</h3>
-                        <p class="trainer">Par Rina</p>
-                        <p class="level">Débutant</p>
-                        <p class="duration">2h</p>
-                        <p class="price">Gratuit</p>
-                        <span class="badge">Certificat</span>
-                        <a href="/cours/marketing-digital" class="btn-primary">Accéder</a>
-                    </div>
-                </div>
-                <div class="course-card" data-theme="tech" data-level="intermediate" data-duration="long" data-price="paid" data-popularity="90" data-date="2024-12-15" data-price-value="99">
-                    <img src="../asset/images/programming.jpg" alt="Introduction à Python">
-                    <div class="course-card-content">
-                        <h3>Introduction à Python</h3>
-                        <p class="trainer">Par Alex</p>
-                        <p class="level">Intermédiaire</p>
-                        <p class="duration">6h</p>
-                        <p class="price">99€</p>
-                        <span class="badge">Certificat</span>
-                        <a href="/cours/python" class="btn-primary">Accéder</a>
-                    </div>
-                </div>
-                <div class="course-card" data-theme="business" data-level="advanced" data-duration="medium" data-price="paid" data-popularity="85" data-date="2025-02-01" data-price-value="149">
-                    <img src="../asset/images/business.jpg" alt="Stratégie d'Entreprise">
-                    <div class="course-card-content">
-                        <h3>Stratégie d'Entreprise</h3>
-                        <p class="trainer">Par Sophie</p>
-                        <p class="level">Avancé</p>
-                        <p class="duration">4h</p>
-                        <p class="price">149€</p>
-                        <span class="badge">Certificat</span>
-                        <a href="/cours/strategie" class="btn-primary">Accéder</a>
-                    </div>
-                </div>
-                <div class="course-card" data-theme="health" data-level="beginner" data-duration="short" data-price="free" data-popularity="95" data-date="2025-03-01" data-price-value="0">
-                    <img src="../asset/images/yoga.jpg" alt="Yoga pour Débutants">
-                    <div class="course-card-content">
-                        <h3>Yoga pour Débutants</h3>
-                        <p class="trainer">Par Emma</p>
-                        <p class="level">Débutant</p>
-                        <p class="duration">1h</p>
-                        <p class="price">Gratuit</p>
-                        <span class="badge">Certificat</span>
-                        <a href="/cours/yoga" class="btn-primary">Accéder</a>
-                    </div>
-                </div>
+                <?php if (empty($cours)): ?>
+                    <p style="grid-column: 1 / -1; text-align: center; color: #555;">Aucun cours disponible pour le moment.</p>
+                <?php else: ?>
+                    <?php foreach ($cours as $c): ?>
+                        <?php
+                            $price_text = $c['prix'] == 0 ? 'Gratuit' : number_format($c['prix'], 2) . ' €';
+                            $price_data = $c['prix'] == 0 ? 'free' : 'paid';
+                            //bouton "Accéder"
+                            $access_link = $is_logged_in ? '../Espace/apprenant/cours_detail1.php?id=' . $c['id'] : '../authentification/inscription.php';
+                            $button_text = $is_logged_in ? 'Accéder' : 'S\'inscrire';
+                            //$duration_placeholder = "Durée N/A"; 
+                        ?>
+                        <div class="course-card" 
+                            data-theme="<?php echo htmlspecialchars($c['formation_id']); ?>" 
+                            data-subtheme="<?php echo htmlspecialchars($c['contenu_formation_id'] ?? ''); ?>" 
+                            data-level="<?php echo htmlspecialchars($c['niveau']); ?>" 
+                            data-price="<?php echo $price_data; ?>" 
+                            data-price-value="<?php echo $c['prix']; ?>"
+                            data-popularity="100" 
+                            data-date="<?php echo date('Y-m-d'); ?>" 
+                            >
+                            <img src="../Uploads/cours/<?php echo htmlspecialchars($c['photo']); ?>" alt="<?php echo htmlspecialchars($c['titre']); ?>">
+                            <div class="course-card-content">
+                                <h3><?php echo htmlspecialchars($c['titre']); ?></h3>
+                                <p class="course-description"><?php echo htmlspecialchars(substr($c['description'], 0, 100)); ?>...</p>
+                                <!--<p class="theme-info">Thème: <strong><php echo htmlspecialchars($c['nom_theme']); ?></strong></p>
+                                <p class="subtheme-info">Sous-Thème: <strong><php echo htmlspecialchars($c['nom_sous_theme'] ?? 'Non spécifié'); ?></strong></p>
+                                -->
+                                <p class="level"><?php echo htmlspecialchars($c['niveau']); ?></p>
+                                <!--<p class="duration"><php echo $duration_placeholder; ?></p>-->
+                                <p class="price"><?php echo $price_text; ?></p>
+                                <span class="badge">Certificat</span>
+                                <a href="<?php echo $access_link; ?>" class="btn-primary"><?php echo $button_text; ?></a>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -719,37 +753,91 @@
             canvas.height = canvas.parentElement.offsetHeight;
             init();
         });
+    
+        function loadSousFormations(formationId) {
+            const contenuSelect = document.getElementById('subtheme_filter');
+            contenuSelect.innerHTML = '<option value="">Chargement...</option>';
 
-        // Filtrage et tri des cours
+            if (!formationId) {
+                contenuSelect.innerHTML = '<option value="">Tous les Sous-Thèmes</option>';
+                return;
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '../Espace/formateur/get_sous_formations.php?formation_id=' + formationId, true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    try {
+                        const sousFormations = JSON.parse(xhr.responseText);
+                        let optionsHtml = '<option value="">Tous les Sous-Thèmes</option>';
+                        
+                        if (Array.isArray(sousFormations) && sousFormations.length > 0) {
+                            sousFormations.forEach(sf => {
+                                optionsHtml += `<option value="${sf.id_contenu}">${sf.sous_formation}</option>`;
+                            });
+                        }
+                        contenuSelect.innerHTML = optionsHtml;
+                    } catch (e) {
+                        contenuSelect.innerHTML = '<option value="">Erreur de données</option>';
+                        console.error('Erreur de parsing JSON:', e);
+                    }
+                } else {
+                    contenuSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+                    console.error('Erreur AJAX:', xhr.statusText);
+                }
+            };
+            xhr.send();
+        }
+
+        // Fonction principale pour charger les sous-thèmes ET filtrer les cours
+        function loadAndFilterCourses() {
+            const themeId = document.getElementById('theme_filter').value;
+            loadSousFormations(themeId);
+            filterCourses(false); 
+        }
+
+        // Fonction de filtrage des cartes de cours
         function filterCourses() {
             const search = document.getElementById('search-input').value.toLowerCase();
-            const theme = document.getElementById('theme').value;
-            const level = document.getElementById('level').value;
-            const duration = document.getElementById('duration').value;
-            const price = document.getElementById('price').value;
+            
+            // Récupération des IDs
+            const theme_id = document.getElementById('theme_filter').value;
+            const subtheme_id = document.getElementById('subtheme_filter').value;
+            
+            // Récupération du NIVEAU
+            const level = document.getElementById('level_filter').value; // <-- RÉACTIVÉ
+            
+            const theme = theme_id ? theme_id : ''; 
+            const subtheme = subtheme_id ? subtheme_id : '';
+            const price = document.getElementById('price_filter').value;
 
             const courses = document.querySelectorAll('.course-card');
 
             courses.forEach(course => {
-                const title = course.querySelector('h3').textContent.toLowerCase();
                 const courseTheme = course.dataset.theme;
-                const courseLevel = course.dataset.level;
-                const courseDuration = course.dataset.duration;
+                const courseSubtheme = course.dataset.subtheme; 
+                const courseLevel = course.dataset.level; // <-- RÉACTIVÉ
                 const coursePrice = course.dataset.price;
 
-                const matchesSearch = title.includes(search);
+                const matchesSearch = course.querySelector('h3').textContent.toLowerCase().includes(search);
+                
                 const matchesTheme = !theme || courseTheme === theme;
-                const matchesLevel = !level || courseLevel === level;
-                const matchesDuration = !duration || courseDuration === duration;
+                const matchesSubtheme = !subtheme || courseSubtheme === subtheme; 
                 const matchesPrice = !price || coursePrice === price;
+                
+                // Comparaison du NIVEAU
+                const matchesLevel = !level || courseLevel === level; // <-- RÉACTIVÉ
 
-                if (matchesSearch && matchesTheme && matchesLevel && matchesDuration && matchesPrice) {
+                // Combinaison des filtres (level réintégré)
+                if (matchesSearch && matchesTheme && matchesSubtheme && matchesLevel && matchesPrice) {
                     course.style.display = 'block';
                 } else {
                     course.style.display = 'none';
                 }
             });
+            sortCourses();
         }
+
 
         function sortCourses() {
             const sort = document.getElementById('sort').value;
@@ -757,18 +845,38 @@
             const courses = Array.from(grid.querySelectorAll('.course-card'));
 
             courses.sort((a, b) => {
-                if (sort === 'popularity') {
-                    return b.dataset.popularity - a.dataset.popularity;
-                } else if (sort === 'newest') {
-                    return new Date(b.dataset.date) - new Date(a.dataset.date);
-                } else if (sort === 'price') {
-                    return a.dataset.priceValue - b.dataset.priceValue;
+                const aIsVisible = a.style.display !== 'none';
+                const bIsVisible = b.style.display !== 'none';
+
+                // Si les deux sont invisibles ou les deux sont visibles, on trie normalement
+                if (aIsVisible === bIsVisible) {
+                    if (sort === 'popularity') {
+                        return b.dataset.popularity - a.dataset.popularity;
+                    } else if (sort === 'newest') {
+                        // Pour le tri par date (non critique pour l'instant)
+                        const dateA = new Date(a.dataset.date).getTime();
+                        const dateB = new Date(b.dataset.date).getTime();
+                        return dateB - dateA;
+                    } else if (sort === 'price') {
+                        return parseFloat(a.dataset.priceValue) - parseFloat(b.dataset.priceValue);
+                    }
                 }
             });
 
+            // Réinsérer les cartes triées dans la grille
             grid.innerHTML = '';
             courses.forEach(course => grid.appendChild(course));
         }
+
+        document.getElementById('search-input').addEventListener('input', filterCourses);
+        document.getElementById('theme_filter').addEventListener('change', loadAndFilterCourses);
+        document.getElementById('subtheme_filter').addEventListener('change', filterCourses);
+        document.getElementById('level_filter').addEventListener('change', filterCourses);
+        document.getElementById('price_filter').addEventListener('change', filterCourses);
+        document.getElementById('sort').addEventListener('change', sortCourses);
+    
+        loadAndFilterCourses();
+
     </script>
 </body>
 </html>
