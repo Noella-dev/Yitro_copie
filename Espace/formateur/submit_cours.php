@@ -24,13 +24,17 @@ try {
     }
 
     // Vérifier les champs principaux
-    if (!isset($_POST['titre_cours']) || !isset($_POST['description_cours']) || !isset($_POST['prix_cours'])) {
-        throw new Exception("Tous les champs obligatoires doivent être remplis : Titre, Description, Prix.");
+    if (!isset($_POST['titre_cours']) || !isset($_POST['description_cours']) || !isset($_POST['prix_cours'])
+        || !isset($_POST['formation_id']) || !isset($_POST['contenu_formation_id'])) { 
+        throw new Exception("Tous les champs obligatoires doivent être remplis : Thème, Sous-Thème, Titre, Description, Prix.");
     }
 
     $titre = $_POST['titre_cours'];
     $description = $_POST['description_cours'];
     $prix = $_POST['prix_cours'];
+    $formation_id = $_POST['formation_id']; 
+    $contenu_formation_id = $_POST['contenu_formation_id'];
+    
     $photo = null;
 
     // Gérer l'upload de la photo
@@ -55,8 +59,20 @@ try {
     }
 
     // Insérer le cours
-    $stmt = $pdo->prepare("INSERT INTO cours (formateur_id, titre, description, prix, photo) VALUES (?, ?, ?, ?, ?)");
-    $stmt->execute([$formateur_id, $titre, $description, $prix, $photo]);
+    $sql_insert_cours = "INSERT INTO cours (formateur_id, formation_id, contenu_formation_id, titre, description, prix, photo) 
+                         VALUES (?, ?, ?, ?, ?, ?, ?)"; 
+                         
+    $stmt = $pdo->prepare($sql_insert_cours);
+    
+    $stmt->execute([
+        $formateur_id,
+        $formation_id,     
+        $contenu_formation_id, 
+        $titre,
+        $description,
+        $prix,
+        $photo
+    ]);
     $cours_id = $pdo->lastInsertId();
 
     // Gérer les modules et leçons

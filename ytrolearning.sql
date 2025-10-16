@@ -74,9 +74,6 @@ LOCK TABLES `contact` WRITE;
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `cours`
---
 
 DROP TABLE IF EXISTS `cours`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -84,6 +81,8 @@ DROP TABLE IF EXISTS `cours`;
 CREATE TABLE `cours` (
   `id` int NOT NULL AUTO_INCREMENT,
   `formateur_id` int NOT NULL,
+  `formation_id` INT NOT NULL, 
+  `contenu_formation_id` INT NOT NULL,
   `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `prix` decimal(10,2) NOT NULL,
@@ -91,7 +90,11 @@ CREATE TABLE `cours` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `formateur_id` (`formateur_id`),
-  CONSTRAINT `cours_ibfk_1` FOREIGN KEY (`formateur_id`) REFERENCES `formateurs` (`id`) ON DELETE CASCADE
+  KEY `formation_id` (`formation_id`),
+  KEY `contenu_formation_id` (`contenu_formation_id`),
+  CONSTRAINT `cours_ibfk_1` FOREIGN KEY (`formateur_id`) REFERENCES `formateurs` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_cours_formation` FOREIGN KEY (`formation_id`) REFERENCES `formations` (`id_formation`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_cours_sous_formation` FOREIGN KEY (`contenu_formation_id`) REFERENCES `contenu_formations` (`id_contenu`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -101,11 +104,13 @@ CREATE TABLE `cours` (
 
 LOCK TABLES `cours` WRITE;
 /*!40000 ALTER TABLE `cours` DISABLE KEYS */;
-INSERT INTO `cours` VALUES (2,1,'Test_cours','Description_Test_cours',10.00,'course_1758190272.png','2025-09-18 10:11:12');
+INSERT INTO `cours` 
+    (id, formateur_id, formation_id, contenu_formation_id, titre, description, prix, photo, created_at)
+VALUES 
+    (2, 1, 1, 1, 'Test_cours','Description_Test_cours',10.00,'course_1758190272.png','2025-09-18 10:11:12');
 /*!40000 ALTER TABLE `cours` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
 -- Table structure for table `formateurs`
 --
 

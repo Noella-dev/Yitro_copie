@@ -80,6 +80,35 @@ if (isset($_SESSION['formateur_id'])) {
     <h2>Créer un nouveau cours</h2>
 
     <form action="submit_cours.php" method="POST" enctype="multipart/form-data" id="courseForm">
+      
+      <div class="form-group">
+        <label for="formation_id">Thème du cours (Formation)</label>
+        <select id="formation_id" name="formation_id" class="form-control" required onchange="chargerSousFormations()">
+            <option value="">-- Sélectionner un thème --</option>
+            <?php
+                // Code pour charger les Formations
+                try {
+                    $stmt_formations = $pdo->query("SELECT id_formation, nom_formation FROM formations ORDER BY nom_formation ASC");
+                    $formations = $stmt_formations->fetchAll(PDO::FETCH_ASSOC);
+
+                    foreach($formations as $f) {
+                        echo '<option value="' . htmlspecialchars($f['id_formation']) . '">' . htmlspecialchars($f['nom_formation']) . '</option>';
+                    }
+                } catch (PDOException $e) {
+                    error_log("Erreur de chargement des formations : " . $e->getMessage());
+                    echo '<option value="" disabled>Erreur de BDD ou aucune formation.</option>';
+                }
+            ?>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="contenu_formation_id">Sous-Thème du cours (Contenu)</label>
+        <select id="contenu_formation_id" name="contenu_formation_id" class="form-control" required>
+            <option value="">-- Sélectionner d'abord un thème --</option>
+        </select>
+      </div>
+      
       <div class="form-group">
         <label for="titre_cours">Titre du cours</label>
         <input type="text" name="titre_cours" id="titre_cours" class="form-control" required>
@@ -168,6 +197,40 @@ if (isset($_SESSION['formateur_id'])) {
         duration: 0.5,
         ease: "power2.out"
       });
+    }
+
+    function chargerSousFormations() {
+        const formationId = document.getElementById('formation_id').value;
+        const selectContenu = document.getElementById('contenu_formation_id');
+
+        // Réinitialiser la liste des sous-formations
+        selectContenu.innerHTML = '<option value="">-- Chargement... --</option>';
+
+        if (formationId) {
+            // Requête vers le script PHP qui retourne les sous-thèmes
+            // Assurez-vous que le chemin vers get_sous_formations.php est correct
+            fetch('get_sous_formations.php?formation_id=' + formationId) 
+                .then(response => response.json())
+                .then(data => {
+                    selectContenu.innerHTML = '<option value="">-- Sélectionner un sous-thème --</option>';
+                    if (data.length > 0) {
+                        data.forEach(item => {
+                            const option = document.createElement('option');
+                            option.value = item.id_contenu;
+                            option.textContent = item.sous_formation;
+                            selectContenu.appendChild(option);
+                        });
+                    } else {
+                        selectContenu.innerHTML = '<option value="" disabled>Aucune sous-formation pour ce thème.</option>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des sous-formations:', error);
+                    selectContenu.innerHTML = '<option value="" disabled>-- Erreur de chargement --</option>';
+                });
+        } else {
+            selectContenu.innerHTML = '<option value="">-- Sélectionner d\'abord un thème --</option>';
+        }
     }
 
     // Validation du formulaire
