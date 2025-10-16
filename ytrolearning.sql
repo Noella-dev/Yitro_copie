@@ -56,10 +56,10 @@ DROP TABLE IF EXISTS `contact`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `contact` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sujet` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nom` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sujet` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -74,6 +74,37 @@ LOCK TABLES `contact` WRITE;
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
+-- Table structure for table `contenu_formations`
+--
+
+DROP TABLE IF EXISTS `contenu_formations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `contenu_formations` (
+  `id_contenu` int NOT NULL AUTO_INCREMENT,
+  `formation_id` int NOT NULL,
+  `sous_formation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_contenu`),
+  KEY `fk_contenu_formation_id` (`formation_id`),
+  CONSTRAINT `fk_contenu_formation_id` FOREIGN KEY (`formation_id`) REFERENCES `formations` (`id_formation`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contenu_formations`
+--
+
+LOCK TABLES `contenu_formations` WRITE;
+/*!40000 ALTER TABLE `contenu_formations` DISABLE KEYS */;
+INSERT INTO `contenu_formations` VALUES (1,4,'Excel et analyse de données','2025-10-16 06:32:43'),(2,1,'SEO / Référencement','2025-10-16 06:32:53'),(3,7,'Arts visuels','2025-10-16 06:33:22');
+/*!40000 ALTER TABLE `contenu_formations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cours`
+--
 
 DROP TABLE IF EXISTS `cours`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -81,12 +112,12 @@ DROP TABLE IF EXISTS `cours`;
 CREATE TABLE `cours` (
   `id` int NOT NULL AUTO_INCREMENT,
   `formateur_id` int NOT NULL,
-  `formation_id` INT NOT NULL, 
-  `contenu_formation_id` INT NOT NULL,
-  `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `formation_id` int NOT NULL,
+  `contenu_formation_id` int NOT NULL,
+  `titre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `prix` decimal(10,2) NOT NULL,
-  `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `formateur_id` (`formateur_id`),
@@ -104,13 +135,11 @@ CREATE TABLE `cours` (
 
 LOCK TABLES `cours` WRITE;
 /*!40000 ALTER TABLE `cours` DISABLE KEYS */;
-INSERT INTO `cours` 
-    (id, formateur_id, formation_id, contenu_formation_id, titre, description, prix, photo, created_at)
-VALUES 
-    (2, 1, 1, 1, 'Test_cours','Description_Test_cours',10.00,'course_1758190272.png','2025-09-18 10:11:12');
+INSERT INTO `cours` VALUES (2,1,4,1,'Test_cours_excel','Description_Test_cours',20.00,'course_1760601459.png','2025-09-18 10:11:12');
 /*!40000 ALTER TABLE `cours` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
 -- Table structure for table `formateurs`
 --
 
@@ -119,32 +148,32 @@ DROP TABLE IF EXISTS `formateurs`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `formateurs` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom_prenom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `telephone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ville_pays` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `linkedin` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `intitule_metier` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `experience_formation` text COLLATE utf8mb4_unicode_ci,
-  `detail_experience` text COLLATE utf8mb4_unicode_ci,
-  `cv` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `categories` text COLLATE utf8mb4_unicode_ci,
-  `autre_domaine` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `titre_cours` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `objectif` text COLLATE utf8mb4_unicode_ci,
-  `public_cible` text COLLATE utf8mb4_unicode_ci,
-  `detail_complementaire` text COLLATE utf8mb4_unicode_ci,
-  `formats` text COLLATE utf8mb4_unicode_ci,
-  `format_autre` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `duree_estimee` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type_formation` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `motivation` text COLLATE utf8mb4_unicode_ci,
-  `valeurs` text COLLATE utf8mb4_unicode_ci,
-  `profil_public` text COLLATE utf8mb4_unicode_ci,
-  `statut` enum('en_attente','verifie','premium','partenaire') COLLATE utf8mb4_unicode_ci DEFAULT 'en_attente',
+  `nom_prenom` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `telephone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ville_pays` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `linkedin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `intitule_metier` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `experience_formation` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `detail_experience` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `cv` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `categories` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `autre_domaine` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `titre_cours` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `objectif` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `public_cible` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `detail_complementaire` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `formats` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `format_autre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `duree_estimee` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type_formation` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `motivation` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `valeurs` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `profil_public` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `statut` enum('en_attente','verifie','premium','partenaire') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'en_attente',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `code_entree` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `code_entree` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -161,6 +190,32 @@ INSERT INTO `formateurs` VALUES (1,'Noella','harmanohisitraka@gmail.com','034785
 UNLOCK TABLES;
 
 --
+-- Table structure for table `formations`
+--
+
+DROP TABLE IF EXISTS `formations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `formations` (
+  `id_formation` int NOT NULL AUTO_INCREMENT,
+  `nom_formation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_formation`),
+  UNIQUE KEY `nom_formation` (`nom_formation`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `formations`
+--
+
+LOCK TABLES `formations` WRITE;
+/*!40000 ALTER TABLE `formations` DISABLE KEYS */;
+INSERT INTO `formations` VALUES (1,'Marketing Digital','2025-10-16 06:31:15'),(2,'Santé & Bien-être','2025-10-16 06:31:24'),(3,'Business & Entrepreneuriat','2025-10-16 06:31:28'),(4,'Compétences Bureautiques & Outil','2025-10-16 06:31:53'),(5,'Finance & Investissement','2025-10-16 06:32:02'),(6,'Développement Personnel (Soft Skills, productivité)','2025-10-16 06:32:10'),(7,'Arts, Design & Artisanat','2025-10-16 06:32:23');
+/*!40000 ALTER TABLE `formations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `forum`
 --
 
@@ -170,8 +225,8 @@ DROP TABLE IF EXISTS `forum`;
 CREATE TABLE `forum` (
   `id` int NOT NULL AUTO_INCREMENT,
   `cours_id` int NOT NULL,
-  `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `titre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `date_creation` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `cours_id` (`cours_id`),
@@ -199,7 +254,7 @@ CREATE TABLE `forum_messages` (
   `id` int NOT NULL AUTO_INCREMENT,
   `cours_id` int DEFAULT NULL,
   `utilisateur_id` int DEFAULT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci,
+  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `date` datetime DEFAULT NULL,
   `lu` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -231,7 +286,7 @@ CREATE TABLE `inscriptions` (
   `utilisateur_id` int NOT NULL,
   `cours_id` int NOT NULL,
   `date_inscription` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `statut_paiement` enum('en_attente','paye','echec') COLLATE utf8mb4_unicode_ci DEFAULT 'en_attente',
+  `statut_paiement` enum('en_attente','paye','echec') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'en_attente',
   PRIMARY KEY (`id`),
   UNIQUE KEY `utilisateur_id` (`utilisateur_id`,`cours_id`),
   KEY `cours_id` (`cours_id`),
@@ -260,13 +315,13 @@ DROP TABLE IF EXISTS `journal_activite`;
 CREATE TABLE `journal_activite` (
   `id` int NOT NULL AUTO_INCREMENT,
   `admin_id` int NOT NULL,
-  `action` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `details` text COLLATE utf8mb4_unicode_ci,
+  `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `details` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `admin_id` (`admin_id`),
   CONSTRAINT `journal_activite_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -275,7 +330,7 @@ CREATE TABLE `journal_activite` (
 
 LOCK TABLES `journal_activite` WRITE;
 /*!40000 ALTER TABLE `journal_activite` DISABLE KEYS */;
-INSERT INTO `journal_activite` VALUES (1,1,'Visualisation progression apprenants','Consultation de la page de progression','2025-09-18 05:04:27'),(2,1,'Visualisation progression apprenants','Consultation de la page de progression','2025-09-18 05:32:37'),(3,1,'Visualisation progression apprenants','Consultation de la page de progression','2025-09-18 05:33:27'),(4,1,'Visualisation progression apprenants','Consultation de la page de progression','2025-09-18 05:33:35'),(5,1,'Envoi code formateur','Formateur ID: 1, Email: harmanohisitraka@gmail.com, Code: 5cd39b312dc6fa44','2025-09-18 09:00:40');
+INSERT INTO `journal_activite` VALUES (1,1,'Visualisation progression apprenants','Consultation de la page de progression','2025-09-18 05:04:27'),(2,1,'Visualisation progression apprenants','Consultation de la page de progression','2025-09-18 05:32:37'),(3,1,'Visualisation progression apprenants','Consultation de la page de progression','2025-09-18 05:33:27'),(4,1,'Visualisation progression apprenants','Consultation de la page de progression','2025-09-18 05:33:35'),(5,1,'Envoi code formateur','Formateur ID: 1, Email: harmanohisitraka@gmail.com, Code: 5cd39b312dc6fa44','2025-09-18 09:00:40'),(6,1,'Ajout formation','Formation ajoutée: Marketing Digital','2025-10-16 06:31:15'),(7,1,'Ajout formation','Formation ajoutée: Santé & Bien-être','2025-10-16 06:31:24'),(8,1,'Ajout formation','Formation ajoutée: Business & Entrepreneuriat','2025-10-16 06:31:28'),(9,1,'Ajout formation','Formation ajoutée: Compétences Bureautiques & Outil','2025-10-16 06:31:54'),(10,1,'Ajout formation','Formation ajoutée: Finance & Investissement','2025-10-16 06:32:02'),(11,1,'Ajout formation','Formation ajoutée: Développement Personnel (Soft Skills, productivité)','2025-10-16 06:32:11'),(12,1,'Ajout formation','Formation ajoutée: Arts, Design & Artisanat','2025-10-16 06:32:24'),(13,1,'Ajout sous-formation','Sous-formation ajoutée: Excel et analyse de données (Formation ID: 4)','2025-10-16 06:32:44'),(14,1,'Ajout sous-formation','Sous-formation ajoutée: SEO / Référencement (Formation ID: 1)','2025-10-16 06:32:53'),(15,1,'Ajout sous-formation','Sous-formation ajoutée: Arts visuels (Formation ID: 7)','2025-10-16 06:33:22');
 /*!40000 ALTER TABLE `journal_activite` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,9 +344,9 @@ DROP TABLE IF EXISTS `lecons`;
 CREATE TABLE `lecons` (
   `id` int NOT NULL AUTO_INCREMENT,
   `module_id` int NOT NULL,
-  `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `format` enum('pdf','audio','video') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `fichier` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `titre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `format` enum('pdf','audio','video') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fichier` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `module_id` (`module_id`),
   CONSTRAINT `lecons_ibfk_1` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`) ON DELETE CASCADE
@@ -347,8 +402,8 @@ DROP TABLE IF EXISTS `modules`;
 CREATE TABLE `modules` (
   `id` int NOT NULL AUTO_INCREMENT,
   `cours_id` int NOT NULL,
-  `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `titre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `cours_id` (`cours_id`),
   CONSTRAINT `modules_ibfk_1` FOREIGN KEY (`cours_id`) REFERENCES `cours` (`id`) ON DELETE CASCADE
@@ -361,7 +416,7 @@ CREATE TABLE `modules` (
 
 LOCK TABLES `modules` WRITE;
 /*!40000 ALTER TABLE `modules` DISABLE KEYS */;
-INSERT INTO `modules` VALUES (2,2,'Module 1q','Test_cours_module');
+INSERT INTO `modules` VALUES (2,2,'Module 1','Test_cours_module');
 /*!40000 ALTER TABLE `modules` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -376,7 +431,7 @@ CREATE TABLE `post` (
   `id` int NOT NULL AUTO_INCREMENT,
   `auteur_id` int NOT NULL,
   `forum_id` int NOT NULL,
-  `contenu` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contenu` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_post` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `auteur_id` (`auteur_id`),
@@ -394,39 +449,7 @@ LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
---
--- Table structure for table `formations`
---
-DROP TABLE IF EXISTS `formations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `formations` (
-  `id_formation` INT NOT NULL AUTO_INCREMENT,
-  `nom_formation` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL UNIQUE,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_formation`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `contenu_formations`
---
-DROP TABLE IF EXISTS `contenu_formations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `contenu_formations` (
-  `id_contenu` INT NOT NULL AUTO_INCREMENT,
-  `formation_id` INT NOT NULL,
-  `sous_formation` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_contenu`),
-  CONSTRAINT `fk_contenu_formation_id` 
-    FOREIGN KEY (`formation_id`) 
-    REFERENCES `formations` (`id_formation`) 
-    ON DELETE CASCADE 
-    ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 --
 -- Table structure for table `questions`
 --
@@ -437,11 +460,11 @@ DROP TABLE IF EXISTS `questions`;
 CREATE TABLE `questions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `quiz_id` int NOT NULL,
-  `texte` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `reponse_correcte` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `reponse_incorrecte_1` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `reponse_incorrecte_2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `reponse_incorrecte_3` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `texte` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reponse_correcte` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reponse_incorrecte_1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reponse_incorrecte_2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reponse_incorrecte_3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `quiz_id` (`quiz_id`),
   CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`quiz_id`) REFERENCES `quiz` (`id`) ON DELETE CASCADE
@@ -468,8 +491,8 @@ DROP TABLE IF EXISTS `quiz`;
 CREATE TABLE `quiz` (
   `id` int NOT NULL AUTO_INCREMENT,
   `module_id` int NOT NULL,
-  `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `titre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `score_minimum` int NOT NULL DEFAULT '70',
   PRIMARY KEY (`id`),
   KEY `module_id` (`module_id`),
@@ -526,24 +549,24 @@ DROP TABLE IF EXISTS `utilisateurs`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `utilisateurs` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `mot_de_passe` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `telephone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pays` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `langue` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `autre_langue` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `objectifs` text COLLATE utf8mb4_unicode_ci,
-  `type_cours` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `niveau_formation` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `niveau_etude` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `acces_internet` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `appareil` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `accessibilite` text COLLATE utf8mb4_unicode_ci,
+  `nom` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mot_de_passe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `telephone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pays` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `langue` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `autre_langue` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `objectifs` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `type_cours` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `niveau_formation` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `niveau_etude` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `acces_internet` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `appareil` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `accessibilite` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `rgpd` tinyint(1) DEFAULT '0',
   `charte` tinyint(1) DEFAULT '0',
-  `role` enum('apprenant','admin','moderator') COLLATE utf8mb4_unicode_ci DEFAULT 'apprenant',
+  `role` enum('apprenant','admin','moderator') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'apprenant',
   `actif` tinyint(1) DEFAULT '1',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -570,4 +593,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-18 14:36:49
+-- Dump completed on 2025-10-16 11:01:32

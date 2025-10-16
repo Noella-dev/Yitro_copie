@@ -58,6 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $prix = $_POST['prix'];
     $formation_id = $_POST['formation_id'] ?? null;
     $contenu_formation_id = $_POST['contenu_formation_id'] ?? null;
+
+    // Validation des IDs
+    if (empty($formation_id) || empty($contenu_formation_id)) {
+        $error = "Veuillez sélectionner le Thème et le Sous-Thème.";
+    }
+
     $photo = $cours['photo'];
     $upload_dir = dirname(__FILE__) . '/../../Uploads/cours/';
     $allowed_types = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -296,15 +302,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="contenu_formation_id">Sous-Thème (Contenu de formation)</label>
                     <select name="contenu_formation_id" id="contenu_formation_id" class="form-control" required>
-                        <?php foreach ($contenu_formations as $cf): ?>
-                            <option value="<?php echo $cf['id_contenu']; ?>" 
-                                <?php echo ($cf['id_contenu'] == $cours['contenu_formation_id']) ? 'selected' : ''; ?>>
-                                <?php echo htmlspecialchars($cf['sous_formation']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                        <?php if (empty($contenu_formations)): ?>
-                            <option value="">Sélectionnez d'abord un thème</option>
-                        <?php endif; ?>
+                        <option value="">Chargement...</option> 
                     </select>
                 </div>
             
@@ -333,6 +331,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const formationSelect = document.getElementById('formation_id');
+            const contenuSelect = document.getElementById('contenu_formation_id');
+            const currentContenuId = <?php echo json_encode($cours['contenu_formation_id']); ?>;
+
+            function loadSousFormations(formationId, initialLoad = false) {
+                contenuSelect.innerHTML = '<option value="">Chargement...</option>';
+
+                if (!formationId) {
+                    contenuSelect.innerHTML = '<option value="">Sélectionnez d\'abord un thème</option>';
+                    return;
+                }
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', 'get_sous_formations.php?formation_id=' + formationId, true);
+                
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        try {
+                            const sousFormations = JSON.parse(xhr.responseText);
+                            
+                            let optionsHtml = '<option value="">Sélectionnez un sous-thème</option>';
+                            
+                            if (Array.isArray(sousFormations) && sousFormations.length > 0) {
+                                sousFormations.forEach(sf => {
+                                    let selected = '';
+                
+                                    if (initialLoad && sf.id_contenu == currentContenuId) {
+                                        selected = 'selected';
+                                    }
+                                    optionsHtml += `<option value="${sf.id_contenu}" ${selected}>${sf.sous_formation}</option>`;
+                                });
+                            } else {
+                                optionsHtml = '<option value="">Aucun sous-thème trouvé pour ce thème</option>';
+                            }
+                            contenuSelect.innerHTML = optionsHtml;
+                        } catch (e) {
+                            contenuSelect.innerHTML = '<option value="">Erreur de parsing des données</option>';
+                            console.error('Erreur de parsing JSON:', e);
+                        }
+                    } else {
+                        contenuSelect.innerHTML = '<option value="">Erreur de chargement des données</option>';
+                        console.error('Erreur AJAX:', xhr.statusText);
+                    }
+                };
+                xhr.send();
+            }
+
+            // Si l'utilisateur change de Formation
+            formationSelect.addEventListener('change', function() {
+                // Si on change manuellement, on réinitialise la sélection (initialLoad = false)
+                loadSousFormations(this.value, false); 
+            });
+
+            // Appeler la fonction au démarrage pour remplir le menu Sous-Thème
+            loadSousFormations(formationSelect.value, true);
+        });
+   
         gsap.from(".main--content", { opacity: 0, y: 50, duration: 1, ease: "power3.out" });
         gsap.from(".form-group", { opacity: 0, y: 20, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.2 });
         gsap.from(".btn", { opacity: 0, scale: 0.8, duration: 0.5, stagger: 0.1, ease: "back.out(1.7)", delay: 0.5 });
