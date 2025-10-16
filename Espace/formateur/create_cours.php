@@ -79,7 +79,7 @@ if (isset($_SESSION['formateur_id'])) {
     </div>
     <h2>Créer un nouveau cours</h2>
 
-    <form action="submit_cours.php" method="POST" enctype="multipart/form-data" id="courseForm">
+    <form action="submit_cours.php" method="post" enctype="multipart/form-data" id="courseForm">
       
       <div class="form-group">
         <label for="formation_id">Thème du cours (Formation)</label>
