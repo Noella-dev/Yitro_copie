@@ -23,8 +23,27 @@ try {
     error_log("Erreur de requête : " . $e->getMessage());
 }
 
-// Récupérer les cours du formateur
-$stmt = $pdo->prepare("SELECT id, titre, description, prix, photo FROM cours WHERE formateur_id = ?");
+// Récupérer les cours du formateur avec les noms de Thème et Sous-Thème
+$sql_cours = "
+    SELECT 
+        c.id, 
+        c.titre, 
+        c.description, 
+        c.prix, 
+        c.photo,
+        f.nom_formation AS nom_theme,          
+        cf.sous_formation AS nom_sous_theme    
+    FROM 
+        cours c
+    JOIN 
+        formations f ON c.formation_id = f.id_formation
+    JOIN 
+        contenu_formations cf ON c.contenu_formation_id = cf.id_contenu
+    WHERE 
+        c.formateur_id = ?
+";
+
+$stmt = $pdo->prepare($sql_cours);
 $stmt->execute([$formateur_id]);
 $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -64,6 +83,39 @@ foreach ($cours as $c) {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
+<style>
+    .course-title-row {
+        display: flex; 
+        justify-content: space-between; 
+        align-items: flex-start;
+        width: 100%; 
+        margin-bottom: 5px; 
+    }
+
+    .theme-subtheme-info {
+        display: flex;
+        flex-direction: column; 
+        align-items: flex-end; 
+        font-size: 0.85em;
+        text-align: right; 
+        line-height: 1.2;
+    }
+
+    .theme-text {
+        color: #1976d2;
+        font-weight: 500;
+    }
+
+    .subtheme-text {
+        color: #028f76;
+        font-weight: 500;
+        margin-top: 2px;
+    }
+
+    .theme-text i, .subtheme-text i {
+        margin-right: 5px;
+    }
+</style>
 <body>
     <div class="sidebar">
         <div class="logo"></div>
@@ -116,7 +168,15 @@ foreach ($cours as $c) {
                         <div class="course-header">
                             <img src="<?php echo htmlspecialchars($c['photo'] && file_exists(__DIR__ . '/../../Uploads/cours/' . $c['photo']) ? '../../Uploads/cours/' . $c['photo'] : '../../asset/images/default_course.jpg'); ?>" alt="Photo du cours" class="course-image">
                             <div class="course-info">
-                                <h4><?php echo htmlspecialchars($c['titre']); ?> <span class="forum-badge"><?php echo count($forums[$c['id']]); ?> Forum(s)</span></h4>
+                                <div class="course-title-row">
+                                    <h4><?php echo htmlspecialchars($c['titre']); ?> <span class="forum-badge"><?php echo count($forums[$c['id']]); ?> Forum(s)</span></h4>
+                                
+                                    <div class="theme-subtheme-info">
+                                        <span class="theme-text"><i class="fas fa-layer-group"></i><?php echo htmlspecialchars($c['nom_theme']); ?></span>
+                                        <span class="subtheme-text"><i class="fas fa-tag"></i><?php echo htmlspecialchars($c['nom_sous_theme']); ?></span>
+                                    </div>
+                                </div>
+                                                            
                                 <p><?php echo htmlspecialchars(substr($c['description'], 0, 100)) . (strlen($c['description']) > 100 ? '...' : ''); ?></p>
                                 <p class="price"><?php echo number_format($c['prix'], 2); ?> €</p>
                                 <div class="course-actions">

@@ -161,3 +161,109 @@ if ($formation_id > 0) {
 
 echo json_encode($sous_formations);
 ?>
+
+<div class="course-info">
+    <h4><?php echo htmlspecialchars($c['titre']); ?> <span class="forum-badge"><?php echo count($forums[$c['id']]); ?> Forum(s)</span></h4>
+    <p><?php echo htmlspecialchars(substr($c['description'], 0, 100)) . (strlen($c['description']) > 100 ? '...' : ''); ?></p>
+    <p class="price"><?php echo number_format($c['prix'], 2); ?> €</p>
+    ```
+
+**Ajoutez le Thème et le Sous-Thème juste avant le titre ou après le prix :**
+
+Je recommande de les placer après la description pour une meilleure visibilité :
+
+```html
+<div class="course-info">
+    <h4><?php echo htmlspecialchars($c['titre']); ?> <span class="forum-badge"><?php echo count($forums[$c['id']]); ?> Forum(s)</span></h4>
+    
+    <p class="theme-info">
+        <i class="fas fa-layer-group"></i> Thème: <strong><?php echo htmlspecialchars($c['nom_theme']); ?></strong><br>
+        <i class="fas fa-tag"></i> Sous-Thème: <strong><?php echo htmlspecialchars($c['nom_sous_theme']); ?></strong>
+    </p>
+    <p><?php echo htmlspecialchars(substr($c['description'], 0, 100)) . (strlen($c['description']) > 100 ? '...' : ''); ?></p>
+    <p class="price"><?php echo number_format($c['prix'], 2); ?> €</p>
+    <div class="course-actions">
+    ```
+
+---
+
+## 3. Ajout d'un Style CSS (Optionnel)
+
+Pour rendre l'affichage du thème plus visible et professionnel, vous pouvez ajouter quelques lignes de CSS dans votre fichier `liste_cours.css` ou dans une balise `<style>`:
+
+```css
+/* Dans votre fichier liste_cours.css */
+.course-info .theme-info {
+    font-size: 0.9em;
+    color: #555; /* Gris foncé */
+    margin: 10px 0;
+    line-height: 1.6;
+    border-left: 3px solid #007bff; /* Barre bleue pour mettre en évidence */
+    padding-left: 10px;
+}
+
+.course-info .theme-info i {
+    color: #007bff; /* Icône bleue */
+    margin-right: 5px;
+}
+
+.course-info .theme-info strong {
+    color: #333; /* Texte du thème plus foncé */
+}
+
+// Mettre à jour le cours
+        $sql_update = "UPDATE cours SET 
+                            titre = ?, 
+                            description = ?, 
+                            prix = ?, 
+                            photo = ?,
+                            formation_id = ?,        /* NOUVEAU */
+                            contenu_formation_id = ? /* NOUVEAU */
+                       WHERE id = ? AND formateur_id = ?";
+                       
+        $stmt = $pdo->prepare($sql_update);
+        $stmt->execute([
+            $titre, 
+            $description, 
+            $prix, 
+            $photo, 
+            $formation_id,           /* NOUVEAU PARAMÈTRE */
+            $contenu_formation_id,     /* NOUVEAU PARAMÈTRE */
+            $id,
+            $formateur_id
+        ]);
+
+        header("Location: liste_cours.php?success=Cours mis à jour avec succès");
+        exit;
+// ... (reste du try/catch)
+
+<form action="edit_cours.php?id=<?php echo $id; ?>" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="formation_id">Thème (Formation principale)</label>
+                <select name="formation_id" id="formation_id" class="form-control" required>
+                    <option value="">Sélectionnez un thème</option>
+                    <?php foreach ($formations as $f): ?>
+                        <option value="<?php echo $f['id_formation']; ?>" 
+                            <?php echo ($f['id_formation'] == $cours['formation_id']) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($f['nom_formation']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="contenu_formation_id">Sous-Thème (Contenu de formation)</label>
+                <select name="contenu_formation_id" id="contenu_formation_id" class="form-control" required>
+                    <?php foreach ($contenu_formations as $cf): ?>
+                        <option value="<?php echo $cf['id_contenu']; ?>" 
+                            <?php echo ($cf['id_contenu'] == $cours['contenu_formation_id']) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($cf['sous_formation']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                    <?php if (empty($contenu_formations)): ?>
+                        <option value="">Sélectionnez d'abord un thème</option>
+                    <?php endif; ?>
+                </select>
+            </div>
+            
+            </form>

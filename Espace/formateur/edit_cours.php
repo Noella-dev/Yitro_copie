@@ -41,10 +41,23 @@ if (!$cours) {
     die("Cours non trouvé ou vous n'avez pas l'autorisation de le modifier.");
 }
 
+// Récupérer toutes les formations pour le menu déroulant
+$stmt_formations = $pdo->prepare("SELECT id_formation, nom_formation FROM formations ORDER BY nom_formation");
+$stmt_formations->execute();
+$formations = $stmt_formations->fetchAll(PDO::FETCH_ASSOC);
+
+// Récupérer les sous-formations de la formation actuelle
+$stmt_contenu = $pdo->prepare("SELECT id_contenu, sous_formation FROM contenu_formations WHERE formation_id = ? ORDER BY sous_formation");
+// Utiliser l'ID de formation déjà enregistré pour ce cours
+$stmt_contenu->execute([$cours['formation_id']]);
+$contenu_formations = $stmt_contenu->fetchAll(PDO::FETCH_ASSOC);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titre = $_POST['titre'];
     $description = $_POST['description'];
     $prix = $_POST['prix'];
+    $formation_id = $_POST['formation_id'] ?? null;
+    $contenu_formation_id = $_POST['contenu_formation_id'] ?? null;
     $photo = $cours['photo'];
     $upload_dir = dirname(__FILE__) . '/../../Uploads/cours/';
     $allowed_types = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -94,8 +107,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Mettre à jour le cours
-        $stmt = $pdo->prepare("UPDATE cours SET titre = ?, description = ?, prix = ?, photo = ? WHERE id = ?");
-        $stmt->execute([$titre, $description, $prix, $photo, $id]);
+        $sql_update = "UPDATE cours SET 
+                            titre = ?, 
+                            description = ?, 
+                            prix = ?, 
+                            photo = ?,
+                            formation_id = ?,        
+                            contenu_formation_id = ? 
+                       WHERE id = ? AND formateur_id = ?";
+                       
+        $stmt = $pdo->prepare($sql_update);
+        $stmt->execute([
+            $titre, 
+            $description, 
+            $prix, 
+            $photo, 
+            $formation_id,           
+            $contenu_formation_id,    
+            $id,
+            $formateur_id
+        ]);
 
         header("Location: liste_cours.php?success=Cours mis à jour avec succès");
         exit;
@@ -249,27 +280,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form action="edit_cours.php?id=<?php echo $id; ?>" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="titre">Titre du cours</label>
-                <input type="text" name="titre" id="titre" class="form-control" value="<?php echo htmlspecialchars($cours['titre']); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Description du cours</label>
-                <textarea name="description" id="description" class="form-control" rows="4" required><?php echo htmlspecialchars($cours['description']); ?></textarea>
-            </div>
-            <div class="form-group">
-                <label for="prix">Prix du cours (€)</label>
-                <input type="number" name="prix" id="prix" class="form-control" step="0.01" value="<?php echo htmlspecialchars($cours['prix']); ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="photo_cours">Photo du cours (jpg, jpeg, png)</label>
-                <?php if ($cours['photo']): ?>
-                    <img src="../../Uploads/cours/<?php echo htmlspecialchars($cours['photo']); ?>" alt="Photo du cours" class="course-image">
-                <?php endif; ?>
-                <input type="file" name="photo_cours" id="photo_cours" class="form-control" accept="image/jpeg,image/jpg,image/png">
-            </div>
-            <button type="submit" class="btn btn-success">Enregistrer les modifications</button>
-            <a href="liste_cours.php" class="btn btn-secondary">Annuler</a>
+                <div class="form-group">
+                    <label for="formation_id">Thème (Formation principale)</label>
+                    <select name="formation_id" id="formation_id" class="form-control" required>
+                        <option value="">Sélectionnez un thème</option>
+                        <?php foreach ($formations as $f): ?>
+                            <option value="<?php echo $f['id_formation']; ?>" 
+                                <?php echo ($f['id_formation'] == $cours['formation_id']) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($f['nom_formation']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contenu_formation_id">Sous-Thème (Contenu de formation)</label>
+                    <select name="contenu_formation_id" id="contenu_formation_id" class="form-control" required>
+                        <?php foreach ($contenu_formations as $cf): ?>
+                            <option value="<?php echo $cf['id_contenu']; ?>" 
+                                <?php echo ($cf['id_contenu'] == $cours['contenu_formation_id']) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($cf['sous_formation']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                        <?php if (empty($contenu_formations)): ?>
+                            <option value="">Sélectionnez d'abord un thème</option>
+                        <?php endif; ?>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label for="titre">Titre du cours</label>
+                    <input type="text" name="titre" id="titre" class="form-control" value="<?php echo htmlspecialchars($cours['titre']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description du cours</label>
+                    <textarea name="description" id="description" class="form-control" rows="4" required><?php echo htmlspecialchars($cours['description']); ?></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="prix">Prix du cours (€)</label>
+                    <input type="number" name="prix" id="prix" class="form-control" step="0.01" value="<?php echo htmlspecialchars($cours['prix']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="photo_cours">Photo du cours (jpg, jpeg, png)</label>
+                    <?php if ($cours['photo']): ?>
+                        <img src="../../Uploads/cours/<?php echo htmlspecialchars($cours['photo']); ?>" alt="Photo du cours" class="course-image">
+                    <?php endif; ?>
+                    <input type="file" name="photo_cours" id="photo_cours" class="form-control" accept="image/jpeg,image/jpg,image/png">
+                </div>
+                <button type="submit" class="btn btn-success">Enregistrer les modifications</button>
+                <a href="liste_cours.php" class="btn btn-secondary">Annuler</a>
         </form>
     </div>
 
