@@ -1,7 +1,3 @@
-<!-- sur la creation du nouveau cours:
-      -ajouter champs theme(qui est nos formations) et le sous-thme (le contenu)
-
--->
 <?php
 session_start();
 require_once '../config/db.php';
@@ -139,6 +135,7 @@ if (isset($_SESSION['formateur_id'])) {
       <div id="modules-container"></div>
 
       <button type="button" class="btn btn-secondary mt-3" onclick="ajouterModule()">+ Ajouter un module</button>
+      
       <button type="submit" class="btn btn-primary mt-3">Enregistrer le cours</button>
     </form>
   </div>
@@ -243,15 +240,32 @@ if (isset($_SESSION['formateur_id'])) {
         }
     }
 
-    // Validation du formulaire
+    // Validation du formulaire (MISE À JOUR)
+    // Synchronisée avec la vérification PHP dans submit_cours.php
     document.getElementById('courseForm').addEventListener('submit', function(e) {
+      // Champs principaux
       const titre = document.getElementById('titre_cours').value.trim();
       const description = document.getElementById('description_cours').value.trim();
       const prix = document.getElementById('prix_cours').value.trim();
+      
+      // Champs de sélection requis
+      const formationId = document.getElementById('formation_id').value;
+      const contenuId = document.getElementById('contenu_formation_id').value;
+      const niveau = document.getElementById('niveau_cours').value; // Vérification du Niveau
 
-      if (!titre || !description || !prix) {
+      // Si un champ principal obligatoire est manquant
+      if (!titre || !description || !prix || !formationId || !contenuId || !niveau) {
         e.preventDefault();
-        alert('Veuillez remplir tous les champs obligatoires : Titre, Description, Prix.');
+        alert('Veuillez remplir tous les champs obligatoires du cours : Thème, Sous-Thème, Niveau, Titre, Description, et Prix.');
+        return;
+      }
+      
+      // OPTIONNEL: Vérifier s'il y a au moins un module
+      const modules = document.querySelectorAll('.module-container');
+      if (modules.length === 0) {
+          e.preventDefault();
+          alert('Votre cours doit contenir au moins un module pour être valide.');
+          return;
       }
     });
 
