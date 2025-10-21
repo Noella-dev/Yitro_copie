@@ -167,7 +167,7 @@ try {
 <body>
   <div class="sidebar">
     <div class="logo">
-        <img src="../../../asset/images/other_logo.png" alt="Yitro E-Learning" style="height: 50px;position:relative;left:-18px;">
+        <img src="../../../asset/images/logo.png" alt="Yitro E-Learning" style="height: 50px;position:relative;left:-18px;">
     </div>
     <ul class="menu" style="margin-top:-14px">
       <li>

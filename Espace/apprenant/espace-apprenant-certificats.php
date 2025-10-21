@@ -153,7 +153,9 @@ $certificats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <div class="sidebar">
-        <div class="logo"></div>
+        <div class="logo">
+            <img src="../../../asset/images/logo.png" alt="Yitro E-Learning" style="height: 50px;position:relative;left:-18px;">
+        </div>
         <ul class="menu">
             <li>
                 <a href="espace-apprenant.php"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>

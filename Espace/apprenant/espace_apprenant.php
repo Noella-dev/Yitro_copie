@@ -569,7 +569,7 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <header>
         <nav class="main-nav">
             <div class="logo">
-                <img src="../../../asset/images/other_logo.png"  alt="Yitro E-Learning">
+                <img src="../../../asset/images/logo.png"  alt="Yitro E-Learning">
                 <a href="#" class="logo-text">Yitro Learning</a>
             </div>
             <ul class="nav-list">

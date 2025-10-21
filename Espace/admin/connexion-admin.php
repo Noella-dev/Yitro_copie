@@ -110,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php
         if (isset($_SESSION['error'])) {
             echo '<p class="error">' . htmlspecialchars($_SESSION['error']) . '</p>';
-            unset($_SESSION['error']); // Supprimer l'erreur après affichage
+            unset($_SESSION['error']); 
         }
         ?>
         <form method="POST" action="">
