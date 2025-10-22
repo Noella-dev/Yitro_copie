@@ -15,7 +15,7 @@
         <nav class="main-nav">
             <div class="container">
                 <div class="logo">
-                    <img src="../asset/images/other_logo.png" alt="Yitro E-Learning">
+                    <img src="../asset/images/logo.png" alt="Yitro E-Learning">
                     <a href="../index.php" class="logo-text">Yitro Learning</a>
                 </div>
                 <ul class="nav-list">
@@ -170,23 +170,23 @@
                 <h1>Une équipe engagée derrière l’écran</h1>
                 <div class="membres">
                     <div class="membre">
-                        <img src="https://via.placeholder.com/150" alt="Rina">
-                        <h3>Rina</h3>
-                        <p>Fondatrice & responsable pédagogique</p>
+                        <img src="https://via.placeholder.com/150" alt="Mme Priscilla">
+                        <h3>Mme Priscilla</h3>
+                        <p>Fondateur & responsable pédagogique</p>
                     </div>
                     <div class="membre">
-                        <img src="https://via.placeholder.com/150" alt="Tojo">
-                        <h3>Tojo</h3>
+                        <img src="https://via.placeholder.com/150" alt="Noëlla">
+                        <h3>Noëlla</h3>
                         <p>Lead développeur plateforme</p>
                     </div>
                     <div class="membre">
-                        <img src="https://via.placeholder.com/150" alt="Maéva">
-                        <h3>Maéva</h3>
+                        <img src="https://via.placeholder.com/150" alt="Edwino">
+                        <h3>Edwino</h3>
                         <p>Community manager</p>
                     </div>
                     <div class="membre">
-                        <img src="https://via.placeholder.com/150" alt="Jean-Luc">
-                        <h3>Jean-Luc</h3>
+                        <img src="https://via.placeholder.com/150" alt="Ranto">
+                        <h3>Ranto</h3>
                         <p>Mentor-formateur inclusion digitale</p>
                     </div>
                 </div>
@@ -237,7 +237,7 @@
         <!-- Section finale – Rejoignez-nous -->
         <section class="rejoindre-yitro">
             <div class="container">
-                <h1>Prêt·e à apprendre autrement ?</h1>
+                <h1>Prêt(e) à apprendre autrement?</h1>
                 <div class="boutons-rejoindre">
                     <a href="catalogue.php" class="btn">Explorer les cours</a>
                     <a href="../authentification/inscription.php" class="btn">Créer un compte gratuit</a>

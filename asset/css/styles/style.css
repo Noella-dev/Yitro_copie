@@ -38,8 +38,8 @@ body {
 }
 
 .main-nav .logo img {
-    height: 40px;
-    border-radius:5px;
+    height: 50px;
+    /*border-radius:5px;*/
   
 }
 
@@ -895,11 +895,12 @@ body {
 .blog-yitro {
     padding: 80px 20px;
     background-color: #F8FAFC;
+   
 }
 
 .blog-yitro .container {
     max-width: 1280px;
-    margin: 0 auto;
+    margin: 0 auto; 
 }
 
 .blog-yitro h1 {
@@ -912,10 +913,11 @@ body {
 }
 
 .articles {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display:flex;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
-    grid-auto-rows: minmax(200px, auto);
+    grid-auto-rows: minmax(100px, auto);
+    
 }
 
 .article {

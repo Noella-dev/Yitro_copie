@@ -17,7 +17,7 @@
         <nav class="main-nav">
             <div class="container">
                 <div class="logo">
-                    <img src="../asset/images/other_logo.png" alt="Yitro E-Learning">
+                    <img src="../asset/images/logo.png" alt="Yitro E-Learning">
                     <a href="../index.php" class="logo-text">Yitro Learning</a>
                 </div>
                 <ul class="nav-list">
@@ -117,8 +117,7 @@
             </div>
         </div>
         <video class="welcome-video" autoplay loop muted playsinline>
-            <source src="../asset/images/Woman doing videocall on the table - Free Stock Video Footage.mp4" type="video/mp4">
-            Votre navigateur ne supporte pas la vidéo.
+            <source src="../asset/images/large1.mp4" type="video/mp4">
         </video>
     </section>
 

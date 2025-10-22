@@ -14,7 +14,7 @@
         <nav class="main-nav">
             <div class="container">
                 <div class="logo">
-                    <img src="../asset/images/other_logo.png" alt="Yitro E-Learning">
+                    <img src="../asset/images/logo.png" alt="Yitro E-Learning">
                     <a href="#" class="logo-text">Yitro Learning</a>
                 </div>
                 <ul class="nav-list">
@@ -135,7 +135,7 @@
                     <div class="training-content">
                         <h3>Marketing Digital</h3>
                         <p>Apprenez à booster votre présence en ligne avec des stratégies digitales efficaces.</p>
-                        <a href="#" class="btn-learn">En savoir plus de</a>
+                        <a href="../" class="btn-learn">En savoir plus de</a>
                     </div>
                 </div>
                 <div class="training-card">

@@ -21,7 +21,7 @@ session_start();
         <div class="container">
             <!-- Logo du site -->
             <div class="logo">
-                <img src="../asset/images/other_logo.png" alt="Yitro E-Learning">
+                <img src="../asset/images/logo.png" alt="Yitro E-Learning">
                 <a href="#" class="logo">Yitro Learning</a>
             </div>
 
