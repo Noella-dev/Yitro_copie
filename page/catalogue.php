@@ -3,7 +3,6 @@
 session_start();
 require_once '../Espace/config/db.php';
 
-
 // Vérifier si l'utilisateur est connecté (nécessaire pour le bouton "Accéder")
 $is_logged_in = isset($_SESSION['apprenant_id']) || isset($_SESSION['formateur_id']);
 $is_apprenant = isset($_SESSION['apprenant_id']);
