@@ -22,6 +22,16 @@ if (!$user) {
 $stmt = $pdo->prepare("SELECT * FROM cours");
 $stmt->execute();
 $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Récupérer toutes les formations pour le menu déroulant dans categories
+$formations = [];
+try {
+    $stmt_formations = $pdo->prepare("SELECT id_formation, nom_formation FROM formations ORDER BY nom_formation");
+    $stmt_formations->execute();
+    $formations = $stmt_formations->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Erreur de requête des formations : " . $e->getMessage());
+}
 ?>
 
 <!DOCTYPE html>
@@ -598,13 +608,12 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h3><i class="fas fa-filter"></i> Filtres</h3>
             <div class="filter-group">
                 <h4><i class="fas fa-book"></i> Filtrer les cours</h4>
-                <label for="course-category">Catégorie</label>
-                <select id="course-category">
-                    <option value="">Toutes les catégories</option>
-                    <option value="development">Développement</option>
-                    <option value="marketing">Marketing</option>
-                    <option value="design">Design</option>
-                    <option value="business">Business</option>
+                <label for="theme_filter">Catégorie</label>
+                <select id="theme_filter" onchange="loadAndFilterCourses()">
+                    <option value="">Tous les Thèmes</option>
+                    <?php foreach ($formations as $f): ?>
+                        <option value="<?php echo $f['id_formation']; ?>"><?php echo htmlspecialchars($f['nom_formation']); ?></option>
+                    <?php endforeach; ?>
                 </select>
                 <label for="course-level">Niveau</label>
                 <select id="course-level">

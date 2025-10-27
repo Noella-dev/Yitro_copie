@@ -3,9 +3,6 @@
 session_start();
 require_once '../Espace/config/db.php';
 
-// Vérifier si l'utilisateur est connecté (nécessaire pour le bouton "Accéder")
-$is_logged_in = isset($_SESSION['apprenant_id']) || isset($_SESSION['formateur_id']);
-$is_apprenant = isset($_SESSION['apprenant_id']);
 
 // Récupérer toutes les formations pour le menu déroulant (Thèmes)
 $formations = [];
@@ -14,7 +11,6 @@ try {
     $stmt_formations->execute();
     $formations = $stmt_formations->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    // Gérer l'erreur de base de données si nécessaire
     error_log("Erreur de requête des formations : " . $e->getMessage());
 }
 
@@ -26,8 +22,8 @@ try {
             c.titre, 
             c.description, 
             c.prix, 
-            c.photo,
             c.niveau,
+            c.photo,
             c.formation_id,         
             c.contenu_formation_id,
             f.nom_formation AS nom_theme,
@@ -217,7 +213,7 @@ try {
 
         .courses-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             gap: 20px;
         }
 
@@ -583,9 +579,9 @@ try {
                             $price_text = $c['prix'] == 0 ? 'Gratuit' : number_format($c['prix'], 2) . ' €';
                             $price_data = $c['prix'] == 0 ? 'free' : 'paid';
                             //bouton "Accéder"
-                            $access_link = $is_logged_in ? '../Espace/apprenant/cours_detail1.php?id=' . $c['id'] : '../authentification/inscription.php';
-                            $button_text = $is_logged_in ? 'Accéder' : 'S\'inscrire';
-                            //$duration_placeholder = "Durée N/A"; 
+                            $access_link = $is_logged_in ? '../Espace/apprenant/cours_detail1.php?id=' . $c['id'] : 'connect-Apprenant.php';
+                            $button_text = $is_logged_in ? 'Accéder' : 'Connecter';
+
                         ?>
                         <div class="course-card" 
                             data-theme="<?php echo htmlspecialchars($c['formation_id']); ?>" 
@@ -600,13 +596,9 @@ try {
                             <div class="course-card-content">
                                 <h3><?php echo htmlspecialchars($c['titre']); ?></h3>
                                 <p class="course-description"><?php echo htmlspecialchars(substr($c['description'], 0, 100)); ?>...</p>
-                                <!--<p class="theme-info">Thème: <strong><php echo htmlspecialchars($c['nom_theme']); ?></strong></p>
-                                <p class="subtheme-info">Sous-Thème: <strong><php echo htmlspecialchars($c['nom_sous_theme'] ?? 'Non spécifié'); ?></strong></p>
-                                -->
                                 <p class="level"><?php echo htmlspecialchars($c['niveau']); ?></p>
-                                <!--<p class="duration"><php echo $duration_placeholder; ?></p>-->
                                 <p class="price"><?php echo $price_text; ?></p>
-                                <span class="badge">Certificat</span>
+                                <!--<span class="badge">Certificat</span>-->
                                 <a href="<?php echo $access_link; ?>" class="btn-primary"><?php echo $button_text; ?></a>
                             </div>
                         </div>
