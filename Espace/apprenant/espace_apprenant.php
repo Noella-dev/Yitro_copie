@@ -815,7 +815,7 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
         // Fonction principale de filtrage, appelée par le bouton
         function applyFilters() {
             // 1. Récupération des valeurs des filtres de cours
-            const selectedThemeId = categoryFilter.value; // Thème/Catégorie
+            const selectedThemeId = categoryFilter.value; 
             const selectedLevel = courseLevel.value;
             const minPrice = parseFloat(priceMin.value);
             const maxPrice = parseFloat(priceMax.value);
@@ -861,8 +861,6 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 }
             });
             
-            // Si vous aviez une autre fonction à appeler après, ajoutez-la ici.
-            // Exemple: updateNoResultsMessage(coursesVisibleCount);
         }
 
         // Lier le bouton d'application des filtres à la fonction
