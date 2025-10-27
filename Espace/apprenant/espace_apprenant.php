@@ -19,11 +19,11 @@ if (!$user) {
 }
 
 // Récupérer tous les cours depuis la base de données
-$stmt = $pdo->prepare("SELECT * FROM cours");
-$stmt->execute();
-$cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//$stmt = $pdo->prepare("SELECT * FROM cours");
+//$stmt->execute();
+//$cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Récupérer toutes les formations pour le menu déroulant dans categories
+//Récupérer toutes les formations pour le menu déroulant (Catégories)
 $formations = [];
 try {
     $stmt_formations = $pdo->prepare("SELECT id_formation, nom_formation FROM formations ORDER BY nom_formation");
@@ -32,6 +32,12 @@ try {
 } catch (PDOException $e) {
     error_log("Erreur de requête des formations : " . $e->getMessage());
 }
+
+// Récupérer tous les cours (y compris l'ID de formation pour le filtrage)
+$stmt = $pdo->prepare("SELECT c.*, f.id_formation FROM cours c LEFT JOIN formations f ON c.formation_id = f.id_formation");
+$stmt->execute();
+$cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -608,9 +614,9 @@ try {
             <h3><i class="fas fa-filter"></i> Filtres</h3>
             <div class="filter-group">
                 <h4><i class="fas fa-book"></i> Filtrer les cours</h4>
-                <label for="theme_filter">Catégorie</label>
-                <select id="theme_filter" onchange="loadAndFilterCourses()">
-                    <option value="">Tous les Thèmes</option>
+                <label for="category_filter">Catégories</label>
+                <select id="category_filter">
+                    <option value="">Toutes les catégories</option>
                     <?php foreach ($formations as $f): ?>
                         <option value="<?php echo $f['id_formation']; ?>"><?php echo htmlspecialchars($f['nom_formation']); ?></option>
                     <?php endforeach; ?>
@@ -618,9 +624,9 @@ try {
                 <label for="course-level">Niveau</label>
                 <select id="course-level">
                     <option value="">Tous les niveaux</option>
-                    <option value="beginner">Débutant</option>
-                    <option value="intermediate">Intermédiaire</option>
-                    <option value="advanced">Avancé</option>
+                    <option value="Débutant">Débutant</option>
+                    <option value="Intermédiaire">Intermédiaire</option>
+                    <option value="Avancé">Avancé</option>
                 </select>
                 <label>Prix</label>
                 <div class="price-range">
@@ -651,9 +657,15 @@ try {
                         <p class="no-courses">Aucun cours disponible pour le moment.</p>
                     <?php else: ?>
                         <?php foreach ($cours as $c): ?>
-                            <div class="course-card" data-category="<?php echo htmlspecialchars($c['category'] ?? 'development'); ?>" data-level="<?php echo htmlspecialchars($c['level'] ?? 'beginner'); ?>" data-price="<?php echo $c['prix']; ?>">
+                            <div class="course-card" 
+                                data-theme-id="<?php echo htmlspecialchars($c['id_formation'] ?? ''); ?>" 
+                                data-level="<?php echo htmlspecialchars($c['level'] ?? 'Débutant'); ?>" 
+                                data-price="<?php echo $c['prix']; ?>"
+                                data-title="<?php echo htmlspecialchars($c['titre']); ?>"
+                                data-description="<?php echo htmlspecialchars($c['description']); ?>"
+                            >
                                 <div class="course-img">
-                                    <?php if ($c['photo']): ?>
+                                    <?php if (!empty($c['photo'])): ?>
                                         <img src="../../Uploads/cours/<?php echo htmlspecialchars($c['photo']); ?>" alt="<?php echo htmlspecialchars($c['titre']); ?>">
                                     <?php else: ?>
                                         <img src="../../asset/images/default_course.jpg" alt="Image par défaut">
@@ -756,20 +768,24 @@ try {
             scrollTimeout = setTimeout(handleScroll, 100);
         });
 
-        // JavaScript pour la sidebar et le filtrage
+        //la sidebar et le filtrage
         const sidebarToggle = document.querySelector('.sidebar-toggle');
         const sidebar = document.querySelector('.sidebar');
         const applyFiltersButton = document.querySelector('#apply-filters');
-        const courseCategory = document.querySelector('#course-category');
+
+        // FILTRES DE COURS
+        const categoryFilter = document.querySelector('#category_filter'); 
         const courseLevel = document.querySelector('#course-level');
         const priceMin = document.querySelector('#price-min');
         const priceMax = document.querySelector('#price-max');
         const priceMinValue = document.querySelector('#price-min-value');
         const priceMaxValue = document.querySelector('#price-max-value');
+        const courseCards = document.querySelectorAll('.course-card');
+
+        // FILTRES DE FORUM
         const forumCourse = document.querySelector('#forum-course');
         const forumKeyword = document.querySelector('#forum-keyword');
-        const courseCards = document.querySelectorAll('.course-card');
-        const forumCards = document.querySelectorAll('.forum-card');
+        const forumCards = document.querySelectorAll('.forum-card'); // Note: Ceci suppose que vous avez des .forum-card
 
         // Toggle sidebar on mobile
         sidebarToggle.addEventListener('click', () => {
@@ -778,40 +794,58 @@ try {
 
         // Update price range values
         priceMin.addEventListener('input', () => {
+            // S'assurer que le min ne dépasse pas le max
+            if (parseFloat(priceMin.value) > parseFloat(priceMax.value)) {
+                priceMax.value = priceMin.value;
+            }
             priceMinValue.textContent = priceMin.value;
-        });
-
-        priceMax.addEventListener('input', () => {
             priceMaxValue.textContent = priceMax.value;
         });
 
-        // Apply filters
-        applyFiltersButton.addEventListener('click', () => {
-            const selectedCategory = courseCategory.value;
+        priceMax.addEventListener('input', () => {
+            // S'assurer que le max ne soit pas inférieur au min
+            if (parseFloat(priceMax.value) < parseFloat(priceMin.value)) {
+                priceMin.value = priceMax.value;
+            }
+            priceMinValue.textContent = priceMin.value;
+            priceMaxValue.textContent = priceMax.value;
+        });
+
+
+        // Fonction principale de filtrage, appelée par le bouton
+        function applyFilters() {
+            // 1. Récupération des valeurs des filtres de cours
+            const selectedThemeId = categoryFilter.value; // Thème/Catégorie
             const selectedLevel = courseLevel.value;
             const minPrice = parseFloat(priceMin.value);
             const maxPrice = parseFloat(priceMax.value);
-            const selectedForumCourse = forumCourse.value;
-            const keyword = forumKeyword.value.toLowerCase();
 
-            // Filter courses
+            // 2. Filtrer les cours
+            let coursesVisibleCount = 0;
             courseCards.forEach(card => {
-                const category = card.dataset.category || '';
+                // CORRECTION: Utilisation de 'data-theme-id'
+                const themeId = card.dataset.themeId || ''; 
                 const level = card.dataset.level || '';
                 const price = parseFloat(card.dataset.price) || 0;
 
-                const matchesCategory = !selectedCategory || category === selectedCategory;
+                // Logique de correspondance
+                const matchesTheme = !selectedThemeId || themeId === selectedThemeId;
                 const matchesLevel = !selectedLevel || level === selectedLevel;
                 const matchesPrice = price >= minPrice && price <= maxPrice;
 
-                if (matchesCategory && matchesLevel && matchesPrice) {
+                if (matchesTheme && matchesLevel && matchesPrice) {
                     card.style.display = 'block';
+                    coursesVisibleCount++;
                 } else {
                     card.style.display = 'none';
                 }
             });
 
-            // Filter forums
+            // 3. Récupération des valeurs des filtres de forum
+            const selectedForumCourse = forumCourse.value;
+            const keyword = forumKeyword.value.toLowerCase();
+
+            // 4. Filtrer les forums (si vous avez des cartes de forum sur cette page)
             forumCards.forEach(card => {
                 const courseId = card.dataset.courseId || '';
                 const title = card.dataset.title.toLowerCase();
@@ -826,7 +860,20 @@ try {
                     card.style.display = 'none';
                 }
             });
+            
+            // Si vous aviez une autre fonction à appeler après, ajoutez-la ici.
+            // Exemple: updateNoResultsMessage(coursesVisibleCount);
+        }
+
+        // Lier le bouton d'application des filtres à la fonction
+        applyFiltersButton.addEventListener('click', applyFilters);
+
+        // Assurez-vous que le filtrage initial est appliqué au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+            // Applique les filtres par défaut (sans sélection) au chargement de la page
+            applyFilters(); 
         });
+
     </script>
 </body>
 </html>
