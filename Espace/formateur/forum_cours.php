@@ -4,7 +4,7 @@ require_once '../config/db.php';
 
 // Vérifier si le formateur est connecté
 if (!isset($_SESSION['formateur_id'])) {
-    header("Location: ../../authentification/logout.php");
+    header("Location: ../../authentification/connexion.php");
     exit;
 }
 
@@ -43,7 +43,7 @@ $stmt = $pdo->prepare("SELECT id, titre, description, date_creation FROM forum W
 $stmt->execute([$cours_id]);
 $forums = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Récupérer les posts pour chaque forum avec indicateur formateur/apprenant
+// Récupérer les posts pour chaque forum avec indicateur formateur
 $posts = [];
 foreach ($forums as $forum) {
     $stmt = $pdo->prepare("
@@ -60,7 +60,7 @@ foreach ($forums as $forum) {
 }
 
 // Trouver l'ID de l'utilisateur correspondant au formateur (via email)
-$stmt = $pdo->prepare("SELECT id FROM utilisateurs WHERE email = (SELECT email FROM formateurs WHERE id = ?)");
+$stmt = $pdo->prepare("SELECT id FROM formateurs WHERE email = (SELECT email FROM formateurs WHERE id = ?)");
 $stmt->execute([$formateur_id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 $user_id = $user ? $user['id'] : null;
@@ -68,6 +68,7 @@ $user_id = $user ? $user['id'] : null;
 if (!$user_id) {
     die("Utilisateur correspondant au formateur non trouvé.");
 }
+
 
 // Gérer l'ajout d'un nouveau post
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['forum_id'], $_POST['contenu'])) {
@@ -170,7 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['forum_id'], $_POST['c
                                     <div class="post-item <?php echo $post['is_formateur'] ? 'post-formateur' : 'post-apprenant'; ?>">
                                         <div class="author">
                                             <i class="fas <?php echo $post['is_formateur'] ? 'fa-user' : 'fa-user-graduate'; ?>"></i>
-                                            <?php echo htmlspecialchars($post['auteur_nom']); ?>
+                                            <?php echo htmlspecialchars($post['auteur_nom']);?> 
                                         </div>
                                         <div class="date"><?php echo date('d/m/Y H:i', strtotime($post['date_post'])); ?></div>
                                         <div class="content"><?php echo htmlspecialchars($post['contenu']); ?></div>

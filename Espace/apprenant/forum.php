@@ -2,18 +2,33 @@
 session_start();
 require_once '../config/db.php';
 
-if (!isset($_SESSION['user_id']) && !isset($_SESSION['formateur_id'])) {
-    header("Location: ../../authentification/login.php");
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../../authentification/connexion.php");
     exit();
 }
 
+$stmt = $pdo->prepare("SELECT nom FROM utilisateurs WHERE id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user) {
+    header("Location: ../../authentification/connexion.php");
+    exit();
+}
+/*
+if (!isset($_SESSION['user_id']) && !isset($_SESSION['formateur_id'])) {
+    header("Location: ../../authentification/connexion.php");
+    exit();
+}
+*/
 // Récupérer le nom et l'ID de l'utilisateur ou du formateur
 if (isset($_SESSION['user_id'])) {
     $stmt = $pdo->prepare("SELECT id, nom FROM utilisateurs WHERE id = ?");
     $stmt->execute([$_SESSION['user_id']]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     $current_user_id = $_SESSION['user_id'];
-} elseif (isset($_SESSION['formateur_id'])) {
+}/* elseif (isset($_SESSION['formateur_id'])) {
     $stmt = $pdo->prepare("SELECT id, nom_prenom AS nom FROM formateurs WHERE id = ?");
     $stmt->execute([$_SESSION['formateur_id']]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -24,10 +39,10 @@ if (isset($_SESSION['user_id'])) {
 }
 
 if (!$user || !$current_user_id) {
-    header("Location: ../../authentification/login.php");
+    header("Location: ../../authentification/connexion.php");
     exit();
 }
-
+*/
 // Traitement de la création d'un nouveau forum
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['titre'], $_POST['cours_id'])) {
     $titre = trim($_POST['titre']);

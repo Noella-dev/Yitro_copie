@@ -350,7 +350,7 @@ if ($forum_id) {
     </style>
 </head>
 <body>
-    <div class="sidebar">
+<div class="sidebar">
         <div class="logo">
             <img src="../../../asset/images/logo.png" alt="Yitro E-Learning" style="height: 50px;position:relative;left:-18px;">
         </div>
@@ -361,10 +361,18 @@ if ($forum_id) {
             <li>
                 <a href="gestion_utilisateurs/gestion_utilisateur.php"><i class="fas fa-user-cog"></i><span>Gestion utilisateur</span></a>
             </li>
-            <li class="active">
-                <a href="../gestion_forum.php"><i class="fas fa-comments"></i><span>Forum</span></a>
+            <li>
+                <a href="gestion_formations/gestion_formations.php"><i class="fas fa-chart-line"></i><span>Gestion formations</span></a>
             </li>
-
+            <li class="active">
+                <a href="gestion_forum.php"><i class="fas fa-comments"></i><span>Forum</span></a>
+            </li>
+            <li>
+                <a href="progression_apprenant.php"><i class="fas fa-chart-line"></i><span>Progression Apprenant</span></a>
+            </li>
+            <li>
+                <a href="espace-certificat.php"><i class="fas fa-certificate"></i><span>Certificat Apprenant</span></a>
+            </li>
             <li class="logout">
                 <a href="../../authentification/logout.php"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
             </li>

@@ -4,8 +4,7 @@ session_start();
 require_once '../config/db.php';
 
 if (!isset($_SESSION['user_id'])) {
-    // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
-    header("Location: ../../authentification/login.php");
+    header("Location: ../../authentification/connexion.php");
     exit();
 }
 
@@ -14,7 +13,7 @@ $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$user) {
-    header("Location: ../../authentification/login.php");
+    header("Location: ../../authentification/connexion.php");
     exit();
 }
 
@@ -764,7 +763,7 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </footer>
 
     <script>
-        // JavaScript pour gérer l'animation et la visibilité de la barre de navigation
+        //gerer l'animation et la visibilité de la barre de navigation
         const topNav = document.querySelector('.main-nav');
         let lastScrollTop = 0;
         let isAnimating = false;
@@ -823,8 +822,7 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
         // FILTRES DE FORUM
         const forumCourse = document.querySelector('#forum-course');
         const forumKeyword = document.querySelector('#forum-keyword');
-        const forumCards = document.querySelectorAll('.forum-card'); // Note: Ceci suppose que vous avez des .forum-card
-
+        const forumCards = document.querySelectorAll('.forum-card'); 
         // Toggle sidebar on mobile
         sidebarToggle.addEventListener('click', () => {
             sidebar.classList.toggle('hidden');
@@ -852,21 +850,19 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Fonction principale de filtrage, appelée par le bouton
         function applyFilters() {
-            // 1. Récupération des valeurs des filtres de cours
+            //Recuperation des valeurs des filtres de cours
             const selectedThemeId = categoryFilter.value; 
             const selectedLevel = courseLevel.value;
             const minPrice = parseFloat(priceMin.value);
             const maxPrice = parseFloat(priceMax.value);
 
-            // 2. Filtrer les cours
+            //filtrer les cours
             let coursesVisibleCount = 0;
             courseCards.forEach(card => {
-                // CORRECTION: Utilisation de 'data-theme-id'
                 const themeId = card.dataset.themeId || ''; 
                 const level = card.dataset.level || '';
                 const price = parseFloat(card.dataset.price) || 0;
 
-                // Logique de correspondance
                 const matchesTheme = !selectedThemeId || themeId === selectedThemeId;
                 const matchesLevel = !selectedLevel || level === selectedLevel;
                 const matchesPrice = price >= minPrice && price <= maxPrice;
@@ -879,11 +875,11 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 }
             });
 
-            // 3. Récupération des valeurs des filtres de forum
+            // recuperation des valeurs des filtres de forum
             const selectedForumCourse = forumCourse.value;
             const keyword = forumKeyword.value.toLowerCase();
 
-            // 4. Filtrer les forums (si vous avez des cartes de forum sur cette page)
+            // filtrer les forums 
             forumCards.forEach(card => {
                 const courseId = card.dataset.courseId || '';
                 const title = card.dataset.title.toLowerCase();
@@ -901,12 +897,9 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
         }
 
-        // Lier le bouton d'application des filtres à la fonction
         applyFiltersButton.addEventListener('click', applyFilters);
 
-        // Assurez-vous que le filtrage initial est appliqué au chargement
         document.addEventListener('DOMContentLoaded', () => {
-            // Applique les filtres par défaut (sans sélection) au chargement de la page
             applyFilters(); 
         });
 
