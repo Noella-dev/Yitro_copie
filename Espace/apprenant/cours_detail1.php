@@ -769,8 +769,8 @@ $can_access = $is_free || $is_enrolled;
                                     $is_audio = in_array(strtolower($lecon['format']), ['audio']);
                                     $is_pdf = in_array(strtolower($lecon['format']), ['pdf']);
                                     
-                                    $filePath = "../../uploads/lecons/" . rawurlencode($lecon['fichier']);
-                                
+                                    $filePath = "../../Uploads/lecons/" . rawurlencode($lecon['fichier']);
+                                   
                                     ?>
                    
                                     <div class="lesson-content">

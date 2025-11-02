@@ -682,6 +682,44 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endif; ?>
                 </div>
             </section>
+
+            <section class="forum-section">
+                <h2 class="section-title">Forum de Discussion</h2>
+                <div class="forum-form">
+                    <h3>Créer un nouveau fil de discussion</h3>
+                    <form action="forum.php" method="POST">
+                        <input type="text" name="titre" placeholder="Titre du fil de discussion" required>
+                        <textarea name="description" placeholder="Description du fil..." rows="4"></textarea>
+                        <select name="cours_id" required>
+                            <option value="">Sélectionner un cours</option>
+                            <?php foreach ($cours as $c): ?>
+                                <option value="<?php echo $c['id']; ?>"><?php echo htmlspecialchars($c['titre']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button type="submit">Publier</button>
+                    </form>
+                </div>
+                <div class="forum-grid">
+                    <?php
+                    // Récupérer les fils de discussion pour chaque cours
+                    $stmt = $pdo->prepare("SELECT f.*, c.titre AS cours_titre FROM forum f JOIN cours c ON f.cours_id = c.id");
+                    $stmt->execute();
+                    $forums = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    ?>
+                    <?php if (empty($forums)): ?>
+                        <p class="no-forum">Aucun fil de discussion disponible pour le moment.</p>
+                    <?php else: ?>
+                        <?php foreach ($forums as $forum): ?>
+                            <div class="forum-card" data-course-id="<?php echo $forum['cours_id']; ?>" data-title="<?php echo htmlspecialchars($forum['titre']); ?>" data-description="<?php echo htmlspecialchars($forum['description']); ?>">
+                                <h3><?php echo htmlspecialchars($forum['titre']); ?></h3>
+                                <p>Dans le cours : <?php echo htmlspecialchars($forum['cours_titre']); ?></p>
+                                <p><?php echo htmlspecialchars(substr($forum['description'], 0, 100)) . (strlen($forum['description']) > 100 ? '...' : ''); ?></p>
+                                <a href="forum.php?forum_id=<?php echo $forum['id']; ?>" class="btn-forum">Participer à la discussion</a>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+            </section>
         </main>
     </div>
 
