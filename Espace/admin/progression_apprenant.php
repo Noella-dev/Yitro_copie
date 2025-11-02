@@ -216,7 +216,7 @@ $stmt->execute([$_SESSION['user_id'], 'Visualisation progression apprenants', 'C
 <body>
     <div class="sidebar">
         <div class="logo">
-            <img src="../../../asset/images/logo.png" alt="Yitro E-Learning" style="height: 50px;position:relative;left:-18px;">
+            <img src="../../../asset/images/logo.png" alt="Yitro E-Learning" style=" height: 50px;border-radius:5px;background: wheat;">
         </div>
         <ul class="menu">
             <li>

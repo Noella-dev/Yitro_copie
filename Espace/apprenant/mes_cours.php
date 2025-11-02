@@ -94,6 +94,7 @@ foreach ($cours as $course) {
             height: 45px;
             border-radius: 50%;
             transition: transform 0.3s ease;
+            height: 50px;border-radius:5px;background: wheat;
         }
 
         .logo img:hover {

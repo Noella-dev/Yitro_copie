@@ -123,6 +123,7 @@ $can_access = $is_free || $is_enrolled;
         .logo img {
             height: 40px;
             border-radius: 50%;
+            height: 50px;border-radius:5px;background: wheat;
         }
 
         .logo-text {

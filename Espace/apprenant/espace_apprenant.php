@@ -79,6 +79,7 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
             height: 40px;
             border-radius: 5px;
             transition: transform 0.3s ease;
+            height: 50px;border-radius:5px;background: wheat;
         }
 
         .logo img:hover {

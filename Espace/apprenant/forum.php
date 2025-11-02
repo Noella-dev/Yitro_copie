@@ -145,6 +145,7 @@ if ($forum_id) {
             height: 45px;
             border-radius: 50%;
             transition: transform 0.3s ease;
+            height: 50px;border-radius:5px;background: wheat;
         }
 
         .logo img:hover {
@@ -581,7 +582,7 @@ if ($forum_id) {
     <header>
         <nav class="main-nav">
             <div class="logo">
-                <img src="https://yitro-consulting.com/wp-content/uploads/2024/02/Capture-decran-le-2024-02-19-a-16.39.58.png" alt="Yitro E-Learning">
+                <img src="../../asset/images/logo.png" alt="Yitro E-Learning">
                 <a href="espace_apprenant.php" class="logo-text">Yitro Learning</a>
             </div>
             <ul class="nav-list">
