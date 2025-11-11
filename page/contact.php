@@ -187,7 +187,7 @@ session_start();
                 <div class="footer-column">
                     <h4>Yitro Learning</h4>
                     <ul>
-                        <li><a href="#">Lot 304-D_240 Andafiatsimo Ambohitrinibe</a></li>
+                        <li><a href="#">Lot 304-D-240 Andafiatsimo Ambohitrinibe</a></li>
                         <li><a href="#">110 Antsirabe</a></li>
                         <li><a href="#">Lun – Ven | 08h à 14h à 18h</a></li>
                         <li><a href="#">Sam – Dim | Fermé</a></li>

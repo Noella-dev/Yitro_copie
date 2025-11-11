@@ -254,7 +254,7 @@
                             <span>Bénéficiez de notre système de promotion pour atteindre plus d’apprenants.</span>
                         </li>
                     </ul>
-                    <a href="#rejoindre" class="btn-monetize">Commencez à monétiser</a>
+                    <a href="formulaire-formateur.php" class="btn-monetize">Commencez à monétiser</a>
                 </div>
                 <div class="monetization-image slide-in-right">
                     <img src="https://img.freepik.com/free-photo/business-finance-employment-female-successful-entrepreneurs-concept-smiling-professional-businesswoman-banker-glasses-holding-laptop_1258-26446.jpg" alt="Monétisation">
@@ -306,18 +306,18 @@
                 <div class="footer-column">
                     <h4>Suivez-nous</h4>
                     <ul>
-                        <li><a href="#">Suivez-nous sur les réseaux sociaux. Restez connecté avec SK Yitro Consulting pour les dernières initiatives.</a></li>
+                        <li>Suivez-nous sur les réseaux sociaux. Restez connecté avec SK Yitro Consulting pour les dernières initiatives.</li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h4>Yitro Learning</h4>
                     <ul>
-                        <li><a href="#">Lot 304-D_240 Andafiatsimo Ambohitrinibe</a></li>
-                        <li><a href="#">110 Antsirabe</a></li>
-                        <li><a href="#">Lun – Ven | 08h à 14h à 18h</a></li>
-                        <li><a href="#">Sam – Dim | Fermé</a></li>
-                        <li><a href="#">contact@yitro-consulting.com</a></li>
-                        <li><a href="#">+261 932</a></li>
+                        <li>Lot 304-D_240 Andafiatsimo Ambohitrinibe</li>
+                        <li>110 Antsirabe</li>
+                        <li>Lun – Ven | 08h à 14h à 18h</li>
+                        <li>Sam – Dim | Fermé</li>
+                        <li>contact@yitro-consulting.com</li>
+                        <li>+261 34 53 313 87</li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -338,7 +338,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>Tous droits réservés – SK Yitro Consulting © 2025</p>
+            <p>Tous droits réservés – <a href="https://yitro-consulting.com/">@SK Yitro Consulting © 2025</a></p>
         </div>
     </footer>
 

@@ -652,7 +652,7 @@ try {
                 <div class="footer-column">
                     <h4>Suivez-nous</h4>
                     <ul>
-                        <li><a href="#">Suivez-nous sur les réseaux sociaux. Restez connecté avec SK Yitro Consulting pour les dernières mises à jour et actualités. Rejoignez-nous sur nos réseaux sociaux.</a></li>
+                        <li>Suivez-nous sur les réseaux sociaux. Restez connecté avec SK Yitro Consulting pour les dernières mises à jour et actualités. Rejoignez-nous sur nos réseaux sociaux.</li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -684,7 +684,7 @@ try {
             </div>
         </div>
         <div class="footer-bottom">
-            <p>Tous droits réservés – SK Yitro Consulting © 2025</p>
+            <p>Tous droits réservés – <a href="https://yitro-consulting.com/">@SK Yitro Consulting © 2025</a></p>
         </div>
     </footer>
 

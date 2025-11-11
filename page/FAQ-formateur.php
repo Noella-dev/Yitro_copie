@@ -326,16 +326,13 @@ header {
     </main>
 
     <!-- Footer -->
- 
-    <!-- ==================== FOOTER ==================== -->
     <footer class="footer">
         <div class="container">
-            <!-- Liens du footer organisés en colonnes -->
             <div class="footer-links">
                 <div class="footer-column">
                     <h4>Suivez-nous</h4>
                     <ul>
-                        <li><a href="#">Suivez-nous sur les Réseaux Sociaux. Restez connecté avec SK Yitro Consulting pour les dernières mises à jour et actualités. Rejoignez-nous sur nos réseaux sociaux.</a></li>  
+                        <li>Suivez-nous sur les Réseaux Sociaux. Restez connecté avec SK Yitro Consulting pour les dernières mises à jour et actualités. Rejoignez-nous sur nos réseaux sociaux.</li>  
                     </ul>
                 </div>
                 
@@ -344,21 +341,21 @@ header {
                 <div class="footer-column">
                     <h4> Yitro Learning</h4>
                     <ul>
-                        <li><a href="#">Lot 304-D_240 Andafiatsimo Ambohitrinibe</a></li>
-                        <li><a href="#">110 Antsirabe</a></li>
-                        <li><a href="#">Lun – Ven | 08h – 12h | 14h – 18h</a></li>
-                        <li><a href="#">Sam – Dim | Fermé</a></li>
-                        <li><a href="#">contact@yitro-consulting.com</a></li>
-                        <li><a href="#">+261 34 53 313 87</a></li>
+                        <li>Lot 304-D_240 Andafiatsimo Ambohitrinibe</li>
+                        <li>110 Antsirabe</li>
+                        <li>Lun – Ven | 08h – 12h | 14h – 18h</li>
+                        <li>Sam – Dim | Fermé</li>
+                        <li>contact@yitro-consulting.com</li>
+                        <li>+261 34 53 313 87</li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h4>À propos</h4>
                     <ul>
-                        <li><a href="#">Accueil</a></li>
-                        <li><a href="#">Formations</a></li>
+                        <li><a href="../index.php">Accueil</a></li>
+                        <li><a href="catalogue.php">Formations</a></li>
                         <li><a href="#">Certifications</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="contact.php">Contact</a></li>
                     </ul>
                 </div>
 
@@ -373,9 +370,8 @@ header {
             </div>
         </div>
 
-        <!-- Section copyright -->
         <div class="footer-bottom">
-            <p>Tous droits réservés – SK Yitro Consulting © 2024</p>
+          <p>Tous droits réservés – <a href="https://yitro-consulting.com/">@SK Yitro Consulting © 2025</a></p>
         </div>
     </footer>
 
