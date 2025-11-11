@@ -27,8 +27,8 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="page/catalogue.php">Nos formations <i class="fas fa-chevron-down"></i></a>
-                        <ul class="dropdown-menu">
+                        <a href="page/catalogue.php">Nos formations</a>
+                        <!--<ul class="dropdown-menu">
                             <li class="dropdown">
                                 <a href="#">Compétences Bureautiques & Outil <i class="fas fa-chevron-right"></i></a>
                                 <ul class="dropdown-menu">
@@ -91,7 +91,7 @@
                             <li><a href="#">Business & Entrepreneuriat</a></li>
                             <li><a href="page/formations/categories/tech.php">Technologie de formation</a></li>
                             <li><a href="#">Langues</a></li>
-                        </ul>
+                        </ul>-->
                     </li>
                 </ul>
                 <div class="auth-links">

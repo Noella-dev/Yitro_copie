@@ -34,8 +34,8 @@ session_start();
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="../page/catalogue.php">Nos formations <i class="fas fa-chevron-down"></i></a>
-                        <ul class="dropdown-menu">
+                        <a href="../page/catalogue.php">Nos formations</a>
+                       <!-- <ul class="dropdown-menu">
                             <li class="dropdown">
                                 <a href="#">Compétences Bureautiques & Outil <i class="fas fa-chevron-right"></i></a>
                                 <ul class="dropdown-menu">
@@ -99,7 +99,7 @@ session_start();
                             <li><a href="../page/formations/categories/tech-programmation.php">Technologie & Programmation</a></li>
                             <li><a href="#">Langues étrangères</a></li>
                         </ul>
-                    </li>
+                    </li>-->
                 </ul>
                 <div class="auth-links">
                     <ul class="nav-list">
